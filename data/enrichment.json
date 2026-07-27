@@ -1,0 +1,1528 @@
+{
+ "2": {
+  "category": "General J06",
+  "analysis": "Check the RIC to be done.",
+  "analysis_pt": "Verificar o RIC a ser emitido.",
+  "resp": "Ship Manager",
+  "note": ""
+ },
+ "39": {
+  "category": "General J06",
+  "analysis": "Status closed — no pending action.",
+  "analysis_pt": "Status encerrado — sem ação pendente.",
+  "resp": "— (Closed – no pending)",
+  "note": ""
+ },
+ "49": {
+  "category": "General J06",
+  "analysis": "Status closed — no pending action.",
+  "analysis_pt": "Status encerrado — sem ação pendente.",
+  "resp": "— (Closed – no pending)",
+  "note": ""
+ },
+ "133": {
+  "category": "General J06",
+  "analysis": "Status closed — no pending action.",
+  "analysis_pt": "Status encerrado — sem ação pendente.",
+  "resp": "— (Closed – no pending)",
+  "note": ""
+ },
+ "207": {
+  "category": "General J06",
+  "analysis": "Status closed — no pending action.",
+  "analysis_pt": "Status encerrado — sem ação pendente.",
+  "resp": "— (Closed – no pending)",
+  "note": ""
+ },
+ "208": {
+  "category": "General J06",
+  "analysis": "Status closed — no pending action.",
+  "analysis_pt": "Status encerrado — sem ação pendente.",
+  "resp": "— (Closed – no pending)",
+  "note": ""
+ },
+ "209": {
+  "category": "General J06",
+  "analysis": "Status closed — no pending action.",
+  "analysis_pt": "Status encerrado — sem ação pendente.",
+  "resp": "— (Closed – no pending)",
+  "note": ""
+ },
+ "211": {
+  "category": "General J06",
+  "analysis": "Test folder indicates pendencies from NG.",
+  "analysis_pt": "A pasta de testes indica pendências do NG.",
+  "resp": "NG (Naval Group)",
+  "note": ""
+ },
+ "214": {
+  "category": "General J06",
+  "analysis": "Status closed — no pending action.",
+  "analysis_pt": "Status encerrado — sem ação pendente.",
+  "resp": "— (Closed – no pending)",
+  "note": ""
+ },
+ "243": {
+  "category": "General J06",
+  "analysis": "Status closed — no pending action.",
+  "analysis_pt": "Status encerrado — sem ação pendente.",
+  "resp": "— (Closed – no pending)",
+  "note": ""
+ },
+ "326": {
+  "category": "General J06",
+  "analysis": "Status closed — no pending action.",
+  "analysis_pt": "Status encerrado — sem ação pendente.",
+  "resp": "— (Closed – no pending)",
+  "note": ""
+ },
+ "405": {
+  "category": "General J06",
+  "analysis": "Report to be delivered after vacuum test.",
+  "analysis_pt": "Relatório a ser entregue após o teste de vácuo.",
+  "resp": "GTO",
+  "note": ""
+ },
+ "406": {
+  "category": "General J06",
+  "analysis": "Status closed — no pending action.",
+  "analysis_pt": "Status encerrado — sem ação pendente.",
+  "resp": "— (Closed – no pending)",
+  "note": ""
+ },
+ "407": {
+  "category": "General J06",
+  "analysis": "Status closed — no pending action.",
+  "analysis_pt": "Status encerrado — sem ação pendente.",
+  "resp": "— (Closed – no pending)",
+  "note": ""
+ },
+ "408": {
+  "category": "General J06",
+  "analysis": "Status closed — no pending action.",
+  "analysis_pt": "Status encerrado — sem ação pendente.",
+  "resp": "— (Closed – no pending)",
+  "note": ""
+ },
+ "409": {
+  "category": "General J06",
+  "analysis": "Test folder with comissioning to be done.",
+  "analysis_pt": "Pasta de testes a ser concluída pelo comissionamento.",
+  "resp": "Commissioning",
+  "note": ""
+ },
+ "411": {
+  "category": "General J06",
+  "analysis": "Status closed — no pending action.",
+  "analysis_pt": "Status encerrado — sem ação pendente.",
+  "resp": "— (Closed – no pending)",
+  "note": ""
+ },
+ "412": {
+  "category": "General J06",
+  "analysis": "Test folder with production team to be delivered.",
+  "analysis_pt": "Pasta de testes a ser entregue pela equipe de produção.",
+  "resp": "Production",
+  "note": ""
+ },
+ "415": {
+  "category": "General J06",
+  "analysis": "Status closed — no pending action.",
+  "analysis_pt": "Status encerrado — sem ação pendente.",
+  "resp": "— (Closed – no pending)",
+  "note": ""
+ },
+ "416": {
+  "category": "General J06",
+  "analysis": "Status closed — no pending action.",
+  "analysis_pt": "Status encerrado — sem ação pendente.",
+  "resp": "— (Closed – no pending)",
+  "note": ""
+ },
+ "417": {
+  "category": "General J06",
+  "analysis": "Status closed — no pending action.",
+  "analysis_pt": "Status encerrado — sem ação pendente.",
+  "resp": "— (Closed – no pending)",
+  "note": ""
+ },
+ "426": {
+  "category": "General J06",
+  "analysis": "Test done, pending the evidence only.",
+  "analysis_pt": "Teste realizado, pendente somente da evidência.",
+  "resp": "Quality",
+  "note": ""
+ },
+ "432": {
+  "category": "General J06",
+  "analysis": "Status closed — no pending action.",
+  "analysis_pt": "Status encerrado — sem ação pendente.",
+  "resp": "— (Closed – no pending)",
+  "note": ""
+ },
+ "434": {
+  "category": "General J06",
+  "analysis": "Status closed — no pending action.",
+  "analysis_pt": "Status encerrado — sem ação pendente.",
+  "resp": "— (Closed – no pending)",
+  "note": ""
+ },
+ "435": {
+  "category": "General J06",
+  "analysis": "Status closed — no pending action.",
+  "analysis_pt": "Status encerrado — sem ação pendente.",
+  "resp": "— (Closed – no pending)",
+  "note": ""
+ },
+ "436": {
+  "category": "General J06",
+  "analysis": "Status closed — no pending action.",
+  "analysis_pt": "Status encerrado — sem ação pendente.",
+  "resp": "— (Closed – no pending)",
+  "note": ""
+ },
+ "437": {
+  "category": "General J06",
+  "analysis": "Status closed — no pending action.",
+  "analysis_pt": "Status encerrado — sem ação pendente.",
+  "resp": "— (Closed – no pending)",
+  "note": ""
+ },
+ "438": {
+  "category": "General J06",
+  "analysis": "Status closed — no pending action.",
+  "analysis_pt": "Status encerrado — sem ação pendente.",
+  "resp": "— (Closed – no pending)",
+  "note": ""
+ },
+ "439": {
+  "category": "General J06",
+  "analysis": "Status closed — no pending action.",
+  "analysis_pt": "Status encerrado — sem ação pendente.",
+  "resp": "— (Closed – no pending)",
+  "note": ""
+ },
+ "442": {
+  "category": "General J06",
+  "analysis": "Status closed — no pending action.",
+  "analysis_pt": "Status encerrado — sem ação pendente.",
+  "resp": "— (Closed – no pending)",
+  "note": ""
+ },
+ "443": {
+  "category": "General J06",
+  "analysis": "Status closed — no pending action.",
+  "analysis_pt": "Status encerrado — sem ação pendente.",
+  "resp": "— (Closed – no pending)",
+  "note": ""
+ },
+ "445": {
+  "category": "General J06",
+  "analysis": "Test done, pending the evidence only.",
+  "analysis_pt": "Teste realizado, pendente somente da evidência.",
+  "resp": "Quality",
+  "note": ""
+ },
+ "446": {
+  "category": "General J06",
+  "analysis": "Status closed — no pending action.",
+  "analysis_pt": "Status encerrado — sem ação pendente.",
+  "resp": "— (Closed – no pending)",
+  "note": ""
+ },
+ "447": {
+  "category": "General J06",
+  "analysis": "Status closed — no pending action.",
+  "analysis_pt": "Status encerrado — sem ação pendente.",
+  "resp": "— (Closed – no pending)",
+  "note": ""
+ },
+ "451": {
+  "category": "General J06",
+  "analysis": "Status closed — no pending action.",
+  "analysis_pt": "Status encerrado — sem ação pendente.",
+  "resp": "— (Closed – no pending)",
+  "note": ""
+ },
+ "461": {
+  "category": "General J06",
+  "analysis": "Status closed — no pending action.",
+  "analysis_pt": "Status encerrado — sem ação pendente.",
+  "resp": "— (Closed – no pending)",
+  "note": ""
+ },
+ "462": {
+  "category": "General J06",
+  "analysis": "Status closed — no pending action.",
+  "analysis_pt": "Status encerrado — sem ação pendente.",
+  "resp": "— (Closed – no pending)",
+  "note": ""
+ },
+ "463": {
+  "category": "General J06",
+  "analysis": "Status closed — no pending action.",
+  "analysis_pt": "Status encerrado — sem ação pendente.",
+  "resp": "— (Closed – no pending)",
+  "note": ""
+ },
+ "487": {
+  "category": "General J06",
+  "analysis": "Status closed — no pending action.",
+  "analysis_pt": "Status encerrado — sem ação pendente.",
+  "resp": "— (Closed – no pending)",
+  "note": ""
+ },
+ "494": {
+  "category": "General J06",
+  "analysis": "Test to be redone by NCR 1236",
+  "analysis_pt": "Teste a ser refeito pela NCR 1236.",
+  "resp": "Ship Manager",
+  "note": ""
+ },
+ "526": {
+  "category": "General J06",
+  "analysis": "Status closed — no pending action.",
+  "analysis_pt": "Status encerrado — sem ação pendente.",
+  "resp": "— (Closed – no pending)",
+  "note": ""
+ },
+ "528": {
+  "category": "General J06",
+  "analysis": "Status closed — no pending action.",
+  "analysis_pt": "Status encerrado — sem ação pendente.",
+  "resp": "— (Closed – no pending)",
+  "note": ""
+ },
+ "560": {
+  "category": "General J06",
+  "analysis": "",
+  "analysis_pt": "",
+  "resp": "NG (Naval Group)",
+  "note": ""
+ },
+ "564": {
+  "category": "General J06",
+  "analysis": "",
+  "analysis_pt": "",
+  "resp": "NG (Naval Group)",
+  "note": ""
+ },
+ "566": {
+  "category": "General J06",
+  "analysis": "Status closed — no pending action.",
+  "analysis_pt": "Status encerrado — sem ação pendente.",
+  "resp": "— (Closed – no pending)",
+  "note": ""
+ },
+ "570": {
+  "category": "General J06",
+  "analysis": "Status closed — no pending action.",
+  "analysis_pt": "Status encerrado — sem ação pendente.",
+  "resp": "— (Closed – no pending)",
+  "note": ""
+ },
+ "571": {
+  "category": "General J06",
+  "analysis": "Status closed — no pending action.",
+  "analysis_pt": "Status encerrado — sem ação pendente.",
+  "resp": "— (Closed – no pending)",
+  "note": ""
+ },
+ "575": {
+  "category": "General J06",
+  "analysis": "Status closed — no pending action.",
+  "analysis_pt": "Status encerrado — sem ação pendente.",
+  "resp": "— (Closed – no pending)",
+  "note": ""
+ },
+ "585": {
+  "category": "General J06",
+  "analysis": "Status closed — no pending action.",
+  "analysis_pt": "Status encerrado — sem ação pendente.",
+  "resp": "— (Closed – no pending)",
+  "note": ""
+ },
+ "605": {
+  "category": "General J06",
+  "analysis": "",
+  "analysis_pt": "",
+  "resp": "NG (Naval Group)",
+  "note": ""
+ },
+ "607": {
+  "category": "General J06",
+  "analysis": "Status closed — no pending action.",
+  "analysis_pt": "Status encerrado — sem ação pendente.",
+  "resp": "— (Closed – no pending)",
+  "note": ""
+ },
+ "609": {
+  "category": "B05",
+  "analysis": "Status closed — no pending action.",
+  "analysis_pt": "Status encerrado — sem ação pendente.",
+  "resp": "— (Closed – no pending)",
+  "note": ""
+ },
+ "610": {
+  "category": "B05",
+  "analysis": "Status closed — no pending action.",
+  "analysis_pt": "Status encerrado — sem ação pendente.",
+  "resp": "— (Closed – no pending)",
+  "note": ""
+ },
+ "611": {
+  "category": "B05",
+  "analysis": "Hatch to be mounted.",
+  "analysis_pt": "Escotilha a ser montada.",
+  "resp": "Production",
+  "note": ""
+ },
+ "612": {
+  "category": "B05",
+  "analysis": "Status closed — no pending action.",
+  "analysis_pt": "Status encerrado — sem ação pendente.",
+  "resp": "— (Closed – no pending)",
+  "note": ""
+ },
+ "613": {
+  "category": "B05",
+  "analysis": "Waiting Vacuum test only",
+  "analysis_pt": "Aguardando somente o teste de vácuo.",
+  "resp": "Ship Manager",
+  "note": ""
+ },
+ "614": {
+  "category": "B05",
+  "analysis": "Waiting Vacuum test only",
+  "analysis_pt": "Aguardando somente o teste de vácuo.",
+  "resp": "Ship Manager",
+  "note": ""
+ },
+ "616": {
+  "category": "B05",
+  "analysis": "Waiting Vacuum test only",
+  "analysis_pt": "Aguardando somente o teste de vácuo.",
+  "resp": "Ship Manager",
+  "note": ""
+ },
+ "618": {
+  "category": "B05",
+  "analysis": "Waiting evidences",
+  "analysis_pt": "Aguardando evidências.",
+  "resp": "Quality",
+  "note": ""
+ },
+ "619": {
+  "category": "B05",
+  "analysis": "Waiting the last inspetions",
+  "analysis_pt": "Aguardando as últimas inspeções.",
+  "resp": "Quality",
+  "note": ""
+ },
+ "620": {
+  "category": "B05",
+  "analysis": "Waiting Vacuum test only",
+  "analysis_pt": "Aguardando somente o teste de vácuo.",
+  "resp": "Ship Manager",
+  "note": ""
+ },
+ "621": {
+  "category": "B05",
+  "analysis": "Waiting Vacuum test only",
+  "analysis_pt": "Aguardando somente o teste de vácuo.",
+  "resp": "Ship Manager",
+  "note": ""
+ },
+ "622": {
+  "category": "B05",
+  "analysis": "Mounting to finished.",
+  "analysis_pt": "Montagem a ser finalizada.",
+  "resp": "Production",
+  "note": ""
+ },
+ "623": {
+  "category": "B05",
+  "analysis": "Waiting Vacuum test only",
+  "analysis_pt": "Aguardando somente o teste de vácuo.",
+  "resp": "Ship Manager",
+  "note": ""
+ },
+ "624": {
+  "category": "B05",
+  "analysis": "Tests folder with quality team",
+  "analysis_pt": "Pasta de testes com a equipe da qualidade.",
+  "resp": "Quality",
+  "note": ""
+ },
+ "625": {
+  "category": "B05",
+  "analysis": "Status closed — no pending action.",
+  "analysis_pt": "Status encerrado — sem ação pendente.",
+  "resp": "— (Closed – no pending)",
+  "note": ""
+ },
+ "626": {
+  "category": "B05",
+  "analysis": "Status closed — no pending action.",
+  "analysis_pt": "Status encerrado — sem ação pendente.",
+  "resp": "— (Closed – no pending)",
+  "note": ""
+ },
+ "627": {
+  "category": "B05",
+  "analysis": "Status closed — no pending action.",
+  "analysis_pt": "Status encerrado — sem ação pendente.",
+  "resp": "— (Closed – no pending)",
+  "note": ""
+ },
+ "628": {
+  "category": "B05",
+  "analysis": "Status closed — no pending action.",
+  "analysis_pt": "Status encerrado — sem ação pendente.",
+  "resp": "— (Closed – no pending)",
+  "note": ""
+ },
+ "629": {
+  "category": "B05",
+  "analysis": "Status closed — no pending action.",
+  "analysis_pt": "Status encerrado — sem ação pendente.",
+  "resp": "— (Closed – no pending)",
+  "note": ""
+ },
+ "636": {
+  "category": "B05",
+  "analysis": "Status closed — no pending action.",
+  "analysis_pt": "Status encerrado — sem ação pendente.",
+  "resp": "— (Closed – no pending)",
+  "note": ""
+ },
+ "638": {
+  "category": "B05",
+  "analysis": "Waiting Vacuum test only",
+  "analysis_pt": "Aguardando somente o teste de vácuo.",
+  "resp": "Ship Manager",
+  "note": ""
+ },
+ "645": {
+  "category": "B05",
+  "analysis": "Status closed — no pending action.",
+  "analysis_pt": "Status encerrado — sem ação pendente.",
+  "resp": "— (Closed – no pending)",
+  "note": ""
+ },
+ "646": {
+  "category": "B05",
+  "analysis": "Waiting Vacuum test only",
+  "analysis_pt": "Aguardando somente o teste de vácuo.",
+  "resp": "Ship Manager",
+  "note": ""
+ },
+ "647": {
+  "category": "B05",
+  "analysis": "Waiting NCR 733 to close only.",
+  "analysis_pt": "Aguardando somente o fechamento da NCR 733.",
+  "resp": "NG (Naval Group)",
+  "note": ""
+ },
+ "648": {
+  "category": "B05",
+  "analysis": "Waiting NCR 733 to close only.",
+  "analysis_pt": "Aguardando somente o fechamento da NCR 733.",
+  "resp": "NG (Naval Group)",
+  "note": ""
+ },
+ "649": {
+  "category": "B05",
+  "analysis": "Waiting NCR 733 to close only.",
+  "analysis_pt": "Aguardando somente o fechamento da NCR 733.",
+  "resp": "NG (Naval Group)",
+  "note": ""
+ },
+ "650": {
+  "category": "B05",
+  "analysis": "Waiting NCR 733 to close only.",
+  "analysis_pt": "Aguardando somente o fechamento da NCR 733.",
+  "resp": "NG (Naval Group)",
+  "note": ""
+ },
+ "651": {
+  "category": "B05",
+  "analysis": "Waiting NCR 733 to close only.",
+  "analysis_pt": "Aguardando somente o fechamento da NCR 733.",
+  "resp": "NG (Naval Group)",
+  "note": ""
+ },
+ "652": {
+  "category": "B05",
+  "analysis": "Waiting NCR 733 to close only.",
+  "analysis_pt": "Aguardando somente o fechamento da NCR 733.",
+  "resp": "NG (Naval Group)",
+  "note": ""
+ },
+ "653": {
+  "category": "B05",
+  "analysis": "Status closed — no pending action.",
+  "analysis_pt": "Status encerrado — sem ação pendente.",
+  "resp": "— (Closed – no pending)",
+  "note": ""
+ },
+ "654": {
+  "category": "B05",
+  "analysis": "Waiting NCR 733 to close only.",
+  "analysis_pt": "Aguardando somente o fechamento da NCR 733.",
+  "resp": "NG (Naval Group)",
+  "note": ""
+ },
+ "655": {
+  "category": "B05",
+  "analysis": "Status closed — no pending action.",
+  "analysis_pt": "Status encerrado — sem ação pendente.",
+  "resp": "— (Closed – no pending)",
+  "note": ""
+ },
+ "657": {
+  "category": "B05",
+  "analysis": "Status closed — no pending action.",
+  "analysis_pt": "Status encerrado — sem ação pendente.",
+  "resp": "— (Closed – no pending)",
+  "note": ""
+ },
+ "658": {
+  "category": "B05",
+  "analysis": "Waiting NCR 733 to close only.",
+  "analysis_pt": "Aguardando somente o fechamento da NCR 733.",
+  "resp": "NG (Naval Group)",
+  "note": ""
+ },
+ "660": {
+  "category": "B05",
+  "analysis": "Waiting evidences",
+  "analysis_pt": "Aguardando evidências.",
+  "resp": "Quality",
+  "note": ""
+ },
+ "661": {
+  "category": "B05",
+  "analysis": "Waiting evidences",
+  "analysis_pt": "Aguardando evidências.",
+  "resp": "Quality",
+  "note": ""
+ },
+ "667": {
+  "category": "B05",
+  "analysis": "Waiting Vacuum test only",
+  "analysis_pt": "Aguardando somente o teste de vácuo.",
+  "resp": "Ship Manager",
+  "note": ""
+ },
+ "673": {
+  "category": "B05",
+  "analysis": "Last evidence to de done bay comissioning the moment before vacuum test.",
+  "analysis_pt": "Última evidência a ser feita pelo comissionamento no momento anterior ao teste de vácuo.",
+  "resp": "Commissioning",
+  "note": ""
+ },
+ "676": {
+  "category": "B05",
+  "analysis": "Status closed — no pending action.",
+  "analysis_pt": "Status encerrado — sem ação pendente.",
+  "resp": "— (Closed – no pending)",
+  "note": ""
+ },
+ "704": {
+  "category": "B05",
+  "analysis": "Status closed — no pending action.",
+  "analysis_pt": "Status encerrado — sem ação pendente.",
+  "resp": "— (Closed – no pending)",
+  "note": ""
+ },
+ "705": {
+  "category": "B05",
+  "analysis": "Status closed — no pending action.",
+  "analysis_pt": "Status encerrado — sem ação pendente.",
+  "resp": "— (Closed – no pending)",
+  "note": ""
+ },
+ "706": {
+  "category": "B05",
+  "analysis": "Status closed — no pending action.",
+  "analysis_pt": "Status encerrado — sem ação pendente.",
+  "resp": "— (Closed – no pending)",
+  "note": ""
+ },
+ "708": {
+  "category": "B05",
+  "analysis": "Status closed — no pending action.",
+  "analysis_pt": "Status encerrado — sem ação pendente.",
+  "resp": "— (Closed – no pending)",
+  "note": ""
+ },
+ "711": {
+  "category": "B05",
+  "analysis": "Status closed — no pending action.",
+  "analysis_pt": "Status encerrado — sem ação pendente.",
+  "resp": "— (Closed – no pending)",
+  "note": ""
+ },
+ "714": {
+  "category": "B05",
+  "analysis": "Status closed — no pending action.",
+  "analysis_pt": "Status encerrado — sem ação pendente.",
+  "resp": "— (Closed – no pending)",
+  "note": ""
+ },
+ "718": {
+  "category": "B05",
+  "analysis": "Jus SIGN pending",
+  "analysis_pt": "Pendente apenas a assinatura (SIGN).",
+  "resp": "Commissioning",
+  "note": ""
+ },
+ "719": {
+  "category": "B05",
+  "analysis": "Status closed — no pending action.",
+  "analysis_pt": "Status encerrado — sem ação pendente.",
+  "resp": "— (Closed – no pending)",
+  "note": ""
+ },
+ "725": {
+  "category": "B05",
+  "analysis": "Waiting Vacuum test only",
+  "analysis_pt": "Aguardando somente o teste de vácuo.",
+  "resp": "Ship Manager",
+  "note": ""
+ },
+ "729": {
+  "category": "B05",
+  "analysis": "B05 paper",
+  "analysis_pt": "Documento B05.",
+  "resp": "GTO",
+  "note": ""
+ },
+ "730": {
+  "category": "B05",
+  "analysis": "Status closed — no pending action.",
+  "analysis_pt": "Status encerrado — sem ação pendente.",
+  "resp": "— (Closed – no pending)",
+  "note": ""
+ },
+ "732": {
+  "category": "B05",
+  "analysis": "Status closed — no pending action.",
+  "analysis_pt": "Status encerrado — sem ação pendente.",
+  "resp": "— (Closed – no pending)",
+  "note": ""
+ },
+ "733": {
+  "category": "B05",
+  "analysis": "Waiting evidences",
+  "analysis_pt": "Aguardando evidências.",
+  "resp": "Quality",
+  "note": ""
+ },
+ "736": {
+  "category": "B05",
+  "analysis": "Waiting Vacuum test only",
+  "analysis_pt": "Aguardando somente o teste de vácuo.",
+  "resp": "Ship Manager",
+  "note": ""
+ },
+ "743": {
+  "category": "B05",
+  "analysis": "Status closed — no pending action.",
+  "analysis_pt": "Status encerrado — sem ação pendente.",
+  "resp": "— (Closed – no pending)",
+  "note": ""
+ },
+ "751": {
+  "category": "B05",
+  "analysis": "Status closed — no pending action.",
+  "analysis_pt": "Status encerrado — sem ação pendente.",
+  "resp": "— (Closed – no pending)",
+  "note": ""
+ },
+ "752": {
+  "category": "B05",
+  "analysis": "Status closed — no pending action.",
+  "analysis_pt": "Status encerrado — sem ação pendente.",
+  "resp": "— (Closed – no pending)",
+  "note": ""
+ },
+ "756": {
+  "category": "B05",
+  "analysis": "Waiting evidences",
+  "analysis_pt": "Aguardando evidências.",
+  "resp": "Quality",
+  "note": ""
+ },
+ "764": {
+  "category": "B05",
+  "analysis": "",
+  "analysis_pt": "",
+  "resp": "NG (Naval Group)",
+  "note": ""
+ },
+ "765": {
+  "category": "B05",
+  "analysis": "",
+  "analysis_pt": "",
+  "resp": "NG (Naval Group)",
+  "note": ""
+ },
+ "777": {
+  "category": "General J06",
+  "analysis": "Status closed — no pending action.",
+  "analysis_pt": "Status encerrado — sem ação pendente.",
+  "resp": "— (Closed – no pending)",
+  "note": ""
+ },
+ "779": {
+  "category": "General J06",
+  "analysis": "Check the date for the test",
+  "analysis_pt": "Verificar a data do teste.",
+  "resp": "Ship Manager",
+  "note": ""
+ },
+ "780": {
+  "category": "General J06",
+  "analysis": "Status closed — no pending action.",
+  "analysis_pt": "Status encerrado — sem ação pendente.",
+  "resp": "— (Closed – no pending)",
+  "note": ""
+ },
+ "781": {
+  "category": "General J06",
+  "analysis": "Check the date for the test",
+  "analysis_pt": "Verificar a data do teste.",
+  "resp": "Ship Manager",
+  "note": ""
+ },
+ "782": {
+  "category": "General J06",
+  "analysis": "Report to be delivered after vacuum test.",
+  "analysis_pt": "Relatório a ser entregue após o teste de vácuo.",
+  "resp": "GTO",
+  "note": ""
+ },
+ "783": {
+  "category": "General J06",
+  "analysis": "Status closed — no pending action.",
+  "analysis_pt": "Status encerrado — sem ação pendente.",
+  "resp": "— (Closed – no pending)",
+  "note": ""
+ },
+ "784": {
+  "category": "General J06",
+  "analysis": "Evidence to be done after vacuum test",
+  "analysis_pt": "Evidência a ser feita após o teste de vácuo.",
+  "resp": "Ship Manager",
+  "note": ""
+ },
+ "785": {
+  "category": "General J06",
+  "analysis": "Just a general document from ICN to be sent.",
+  "analysis_pt": "Apenas um documento geral da ICN a ser enviado.",
+  "resp": "Ship Manager",
+  "note": ""
+ },
+ "786": {
+  "category": "General J06",
+  "analysis": "Status closed — no pending action.",
+  "analysis_pt": "Status encerrado — sem ação pendente.",
+  "resp": "— (Closed – no pending)",
+  "note": ""
+ },
+ "809": {
+  "category": "General J06",
+  "analysis": "Check the RIC to be done.",
+  "analysis_pt": "Verificar o RIC a ser emitido.",
+  "resp": "Ship Manager",
+  "note": ""
+ },
+ "817": {
+  "category": "General J06",
+  "analysis": "Status closed — no pending action.",
+  "analysis_pt": "Status encerrado — sem ação pendente.",
+  "resp": "— (Closed – no pending)",
+  "note": ""
+ },
+ "818": {
+  "category": "General J06",
+  "analysis": "Test done, pending the evidence only.",
+  "analysis_pt": "Teste realizado, pendente somente da evidência.",
+  "resp": "Quality",
+  "note": ""
+ },
+ "820": {
+  "category": "General J06",
+  "analysis": "Status closed — no pending action.",
+  "analysis_pt": "Status encerrado — sem ação pendente.",
+  "resp": "— (Closed – no pending)",
+  "note": ""
+ },
+ "822": {
+  "category": "General J06",
+  "analysis": "Status closed — no pending action.",
+  "analysis_pt": "Status encerrado — sem ação pendente.",
+  "resp": "— (Closed – no pending)",
+  "note": ""
+ },
+ "840": {
+  "category": "General J06",
+  "analysis": "Status closed — no pending action.",
+  "analysis_pt": "Status encerrado — sem ação pendente.",
+  "resp": "— (Closed – no pending)",
+  "note": ""
+ },
+ "855": {
+  "category": "General J06",
+  "analysis": "",
+  "analysis_pt": "",
+  "resp": "NG (Naval Group)",
+  "note": ""
+ },
+ "1006": {
+  "category": "General J06",
+  "analysis": "Status closed — no pending action.",
+  "analysis_pt": "Status encerrado — sem ação pendente.",
+  "resp": "— (Closed – no pending)",
+  "note": ""
+ },
+ "1007": {
+  "category": "General J06",
+  "analysis": "Status closed — no pending action.",
+  "analysis_pt": "Status encerrado — sem ação pendente.",
+  "resp": "— (Closed – no pending)",
+  "note": ""
+ },
+ "1008": {
+  "category": "General J06",
+  "analysis": "Status closed — no pending action.",
+  "analysis_pt": "Status encerrado — sem ação pendente.",
+  "resp": "— (Closed – no pending)",
+  "note": ""
+ },
+ "1009": {
+  "category": "General J06",
+  "analysis": "Status closed — no pending action.",
+  "analysis_pt": "Status encerrado — sem ação pendente.",
+  "resp": "— (Closed – no pending)",
+  "note": ""
+ },
+ "1010": {
+  "category": "General J06",
+  "analysis": "Status closed — no pending action.",
+  "analysis_pt": "Status encerrado — sem ação pendente.",
+  "resp": "— (Closed – no pending)",
+  "note": ""
+ },
+ "1012": {
+  "category": "General J06",
+  "analysis": "Status closed — no pending action.",
+  "analysis_pt": "Status encerrado — sem ação pendente.",
+  "resp": "— (Closed – no pending)",
+  "note": ""
+ },
+ "1014": {
+  "category": "General J06",
+  "analysis": "Status closed — no pending action.",
+  "analysis_pt": "Status encerrado — sem ação pendente.",
+  "resp": "— (Closed – no pending)",
+  "note": ""
+ },
+ "1022": {
+  "category": "General J06",
+  "analysis": "Status closed — no pending action.",
+  "analysis_pt": "Status encerrado — sem ação pendente.",
+  "resp": "— (Closed – no pending)",
+  "note": ""
+ },
+ "1025": {
+  "category": "General J06",
+  "analysis": "Status closed — no pending action.",
+  "analysis_pt": "Status encerrado — sem ação pendente.",
+  "resp": "— (Closed – no pending)",
+  "note": ""
+ },
+ "1026": {
+  "category": "General J06",
+  "analysis": "Status closed — no pending action.",
+  "analysis_pt": "Status encerrado — sem ação pendente.",
+  "resp": "— (Closed – no pending)",
+  "note": ""
+ },
+ "1027": {
+  "category": "General J06",
+  "analysis": "Check the date for the test",
+  "analysis_pt": "Verificar a data do teste.",
+  "resp": "Ship Manager",
+  "note": ""
+ },
+ "1029": {
+  "category": "General J06",
+  "analysis": "Status closed — no pending action.",
+  "analysis_pt": "Status encerrado — sem ação pendente.",
+  "resp": "— (Closed – no pending)",
+  "note": ""
+ },
+ "1030": {
+  "category": "General J06",
+  "analysis": "Check the date for the test",
+  "analysis_pt": "Verificar a data do teste.",
+  "resp": "Ship Manager",
+  "note": ""
+ },
+ "1102": {
+  "category": "B05",
+  "analysis": "Waiting evidences",
+  "analysis_pt": "Aguardando evidências.",
+  "resp": "Quality",
+  "note": ""
+ },
+ "1110": {
+  "category": "General J06",
+  "analysis": "Status closed — no pending action.",
+  "analysis_pt": "Status encerrado — sem ação pendente.",
+  "resp": "— (Closed – no pending)",
+  "note": ""
+ },
+ "1193": {
+  "category": "General J06",
+  "analysis": "Status closed — no pending action.",
+  "analysis_pt": "Status encerrado — sem ação pendente.",
+  "resp": "— (Closed – no pending)",
+  "note": ""
+ },
+ "1576": {
+  "category": "General J06",
+  "analysis": "Status closed — no pending action.",
+  "analysis_pt": "Status encerrado — sem ação pendente.",
+  "resp": "— (Closed – no pending)",
+  "note": ""
+ },
+ "1618": {
+  "category": "General J06",
+  "analysis": "Status closed — no pending action.",
+  "analysis_pt": "Status encerrado — sem ação pendente.",
+  "resp": "— (Closed – no pending)",
+  "note": ""
+ },
+ "1619": {
+  "category": "General J06",
+  "analysis": "Status closed — no pending action.",
+  "analysis_pt": "Status encerrado — sem ação pendente.",
+  "resp": "— (Closed – no pending)",
+  "note": ""
+ },
+ "1620": {
+  "category": "General J06",
+  "analysis": "Status closed — no pending action.",
+  "analysis_pt": "Status encerrado — sem ação pendente.",
+  "resp": "— (Closed – no pending)",
+  "note": ""
+ },
+ "1621": {
+  "category": "General J06",
+  "analysis": "Status closed — no pending action.",
+  "analysis_pt": "Status encerrado — sem ação pendente.",
+  "resp": "— (Closed – no pending)",
+  "note": ""
+ },
+ "1723": {
+  "category": "General J06",
+  "analysis": "Test done, pending the evidence only.",
+  "analysis_pt": "Teste realizado, pendente somente da evidência.",
+  "resp": "Quality",
+  "note": ""
+ },
+ "1724": {
+  "category": "General J06",
+  "analysis": "Status closed — no pending action.",
+  "analysis_pt": "Status encerrado — sem ação pendente.",
+  "resp": "— (Closed – no pending)",
+  "note": ""
+ },
+ "1726": {
+  "category": "General J06",
+  "analysis": "Status closed — no pending action.",
+  "analysis_pt": "Status encerrado — sem ação pendente.",
+  "resp": "— (Closed – no pending)",
+  "note": ""
+ },
+ "1731": {
+  "category": "General J06",
+  "analysis": "Status closed — no pending action.",
+  "analysis_pt": "Status encerrado — sem ação pendente.",
+  "resp": "— (Closed – no pending)",
+  "note": ""
+ },
+ "1732": {
+  "category": "General J06",
+  "analysis": "Status closed — no pending action.",
+  "analysis_pt": "Status encerrado — sem ação pendente.",
+  "resp": "— (Closed – no pending)",
+  "note": ""
+ },
+ "1733": {
+  "category": "General J06",
+  "analysis": "Status closed — no pending action.",
+  "analysis_pt": "Status encerrado — sem ação pendente.",
+  "resp": "— (Closed – no pending)",
+  "note": ""
+ },
+ "1734": {
+  "category": "General J06",
+  "analysis": "Status closed — no pending action.",
+  "analysis_pt": "Status encerrado — sem ação pendente.",
+  "resp": "— (Closed – no pending)",
+  "note": ""
+ },
+ "1735": {
+  "category": "General J06",
+  "analysis": "Status closed — no pending action.",
+  "analysis_pt": "Status encerrado — sem ação pendente.",
+  "resp": "— (Closed – no pending)",
+  "note": ""
+ },
+ "1736": {
+  "category": "General J06",
+  "analysis": "Status closed — no pending action.",
+  "analysis_pt": "Status encerrado — sem ação pendente.",
+  "resp": "— (Closed – no pending)",
+  "note": ""
+ },
+ "1737": {
+  "category": "General J06",
+  "analysis": "Test done, pending the evidence only.",
+  "analysis_pt": "Teste realizado, pendente somente da evidência.",
+  "resp": "Quality",
+  "note": ""
+ },
+ "1738": {
+  "category": "General J06",
+  "analysis": "Status closed — no pending action.",
+  "analysis_pt": "Status encerrado — sem ação pendente.",
+  "resp": "— (Closed – no pending)",
+  "note": ""
+ },
+ "1739": {
+  "category": "General J06",
+  "analysis": "Status closed — no pending action.",
+  "analysis_pt": "Status encerrado — sem ação pendente.",
+  "resp": "— (Closed – no pending)",
+  "note": ""
+ },
+ "1740": {
+  "category": "General J06",
+  "analysis": "Status closed — no pending action.",
+  "analysis_pt": "Status encerrado — sem ação pendente.",
+  "resp": "— (Closed – no pending)",
+  "note": ""
+ },
+ "1741": {
+  "category": "General J06",
+  "analysis": "Test done, pending the evidence only.",
+  "analysis_pt": "Teste realizado, pendente somente da evidência.",
+  "resp": "Quality",
+  "note": ""
+ },
+ "1744": {
+  "category": "General J06",
+  "analysis": "Status closed — no pending action.",
+  "analysis_pt": "Status encerrado — sem ação pendente.",
+  "resp": "— (Closed – no pending)",
+  "note": ""
+ },
+ "1745": {
+  "category": "General J06",
+  "analysis": "Tests folder with quality team",
+  "analysis_pt": "Pasta de testes com a equipe da qualidade.",
+  "resp": "Quality",
+  "note": ""
+ },
+ "1746": {
+  "category": "General J06",
+  "analysis": "Status closed — no pending action.",
+  "analysis_pt": "Status encerrado — sem ação pendente.",
+  "resp": "— (Closed – no pending)",
+  "note": ""
+ },
+ "1747": {
+  "category": "General J06",
+  "analysis": "Status closed — no pending action.",
+  "analysis_pt": "Status encerrado — sem ação pendente.",
+  "resp": "— (Closed – no pending)",
+  "note": ""
+ },
+ "1748": {
+  "category": "General J06",
+  "analysis": "Status closed — no pending action.",
+  "analysis_pt": "Status encerrado — sem ação pendente.",
+  "resp": "— (Closed – no pending)",
+  "note": ""
+ },
+ "1749": {
+  "category": "General J06",
+  "analysis": "Status closed — no pending action.",
+  "analysis_pt": "Status encerrado — sem ação pendente.",
+  "resp": "— (Closed – no pending)",
+  "note": ""
+ },
+ "1750": {
+  "category": "General J06",
+  "analysis": "Status closed — no pending action.",
+  "analysis_pt": "Status encerrado — sem ação pendente.",
+  "resp": "— (Closed – no pending)",
+  "note": ""
+ },
+ "1751": {
+  "category": "General J06",
+  "analysis": "Status closed — no pending action.",
+  "analysis_pt": "Status encerrado — sem ação pendente.",
+  "resp": "— (Closed – no pending)",
+  "note": ""
+ },
+ "1752": {
+  "category": "General J06",
+  "analysis": "Status closed — no pending action.",
+  "analysis_pt": "Status encerrado — sem ação pendente.",
+  "resp": "— (Closed – no pending)",
+  "note": ""
+ },
+ "1753": {
+  "category": "General J06",
+  "analysis": "Status closed — no pending action.",
+  "analysis_pt": "Status encerrado — sem ação pendente.",
+  "resp": "— (Closed – no pending)",
+  "note": ""
+ },
+ "1754": {
+  "category": "General J06",
+  "analysis": "Status closed — no pending action.",
+  "analysis_pt": "Status encerrado — sem ação pendente.",
+  "resp": "— (Closed – no pending)",
+  "note": ""
+ },
+ "1755": {
+  "category": "General J06",
+  "analysis": "Status closed — no pending action.",
+  "analysis_pt": "Status encerrado — sem ação pendente.",
+  "resp": "— (Closed – no pending)",
+  "note": ""
+ },
+ "1758": {
+  "category": "General J06",
+  "analysis": "Status closed — no pending action.",
+  "analysis_pt": "Status encerrado — sem ação pendente.",
+  "resp": "— (Closed – no pending)",
+  "note": ""
+ },
+ "1759": {
+  "category": "General J06",
+  "analysis": "Status closed — no pending action.",
+  "analysis_pt": "Status encerrado — sem ação pendente.",
+  "resp": "— (Closed – no pending)",
+  "note": ""
+ },
+ "1760": {
+  "category": "General J06",
+  "analysis": "Status closed — no pending action.",
+  "analysis_pt": "Status encerrado — sem ação pendente.",
+  "resp": "— (Closed – no pending)",
+  "note": ""
+ },
+ "1761": {
+  "category": "General J06",
+  "analysis": "Evidence received, only BIC to be closed by GTO",
+  "analysis_pt": "Evidência recebida, faltando somente o BIC ser fechado pela GTO.",
+  "resp": "GTO",
+  "note": ""
+ },
+ "1762": {
+  "category": "General J06",
+  "analysis": "Evidence received, only BIC to be closed by GTO",
+  "analysis_pt": "Evidência recebida, faltando somente o BIC ser fechado pela GTO.",
+  "resp": "GTO",
+  "note": ""
+ },
+ "1763": {
+  "category": "General J06",
+  "analysis": "Evidence received, only BIC to be closed by GTO",
+  "analysis_pt": "Evidência recebida, faltando somente o BIC ser fechado pela GTO.",
+  "resp": "GTO",
+  "note": ""
+ },
+ "1764": {
+  "category": "General J06",
+  "analysis": "Status closed — no pending action.",
+  "analysis_pt": "Status encerrado — sem ação pendente.",
+  "resp": "— (Closed – no pending)",
+  "note": ""
+ },
+ "1765": {
+  "category": "General J06",
+  "analysis": "Status closed — no pending action.",
+  "analysis_pt": "Status encerrado — sem ação pendente.",
+  "resp": "— (Closed – no pending)",
+  "note": ""
+ },
+ "3005": {
+  "category": "General J06",
+  "analysis": "Status closed — no pending action.",
+  "analysis_pt": "Status encerrado — sem ação pendente.",
+  "resp": "— (Closed – no pending)",
+  "note": ""
+ },
+ "3095": {
+  "category": "General J06",
+  "analysis": "Just do a RIC informing that the circuits are filled with grease.",
+  "analysis_pt": "Basta emitir um RIC informando que os circuitos estão preenchidos com graxa.",
+  "resp": "Commissioning",
+  "note": ""
+ },
+ "3096": {
+  "category": "General J06",
+  "analysis": "Test SHIP14C partial Elementary n°2 table n°4 to be done by comissioning",
+  "analysis_pt": "Teste SHIP14C parcial, Elementar n°2 tabela n°4, a ser feito pelo comissionamento.",
+  "resp": "Commissioning",
+  "note": ""
+ },
+ "3097": {
+  "category": "General J06",
+  "analysis": "Status closed — no pending action.",
+  "analysis_pt": "Status encerrado — sem ação pendente.",
+  "resp": "— (Closed – no pending)",
+  "note": ""
+ },
+ "3098": {
+  "category": "General J06",
+  "analysis": "On-board safety inspection - J06 to be done by ship manager team",
+  "analysis_pt": "Inspeção de segurança a bordo - J06 a ser feita pela equipe de ship manager.",
+  "resp": "Ship Manager",
+  "note": ""
+ },
+ "3099": {
+  "category": "General J06",
+  "analysis": "RIC to be done by SOP team close to the date for J06.",
+  "analysis_pt": "RIC a ser feito pela equipe de SOP próximo à data do J06.",
+  "resp": "SOP",
+  "note": ""
+ },
+ "3100": {
+  "category": "General J06",
+  "analysis": "Document to be done by ship manager team",
+  "analysis_pt": "Documento a ser feito pela equipe de ship manager.",
+  "resp": "Ship Manager",
+  "note": ""
+ },
+ "3101": {
+  "category": "General J06",
+  "analysis": "Status closed — no pending action.",
+  "analysis_pt": "Status encerrado — sem ação pendente.",
+  "resp": "— (Closed – no pending)",
+  "note": ""
+ },
+ "3102": {
+  "category": "General J06",
+  "analysis": "Status closed — no pending action.",
+  "analysis_pt": "Status encerrado — sem ação pendente.",
+  "resp": "— (Closed – no pending)",
+  "note": ""
+ },
+ "3103": {
+  "category": "General J06",
+  "analysis": "A RIC to be done by ship manager team.",
+  "analysis_pt": "Um RIC a ser feito pela equipe de ship manager.",
+  "resp": "Ship Manager",
+  "note": ""
+ },
+ "3105": {
+  "category": "General J06",
+  "analysis": "Status closed — no pending action.",
+  "analysis_pt": "Status encerrado — sem ação pendente.",
+  "resp": "— (Closed – no pending)",
+  "note": ""
+ },
+ "3106": {
+  "category": "General J06",
+  "analysis": "Status closed — no pending action.",
+  "analysis_pt": "Status encerrado — sem ação pendente.",
+  "resp": "— (Closed – no pending)",
+  "note": ""
+ },
+ "3107": {
+  "category": "General J06",
+  "analysis": "Status closed — no pending action.",
+  "analysis_pt": "Status encerrado — sem ação pendente.",
+  "resp": "— (Closed – no pending)",
+  "note": ""
+ },
+ "3109": {
+  "category": "General J06",
+  "analysis": "Test SHIP14C.2 partial Elementary n°2 Table 4 - J06 to be done by comissioning",
+  "analysis_pt": "Teste SHIP14C.2 parcial, Elementar n°2 Tabela 4 - J06, a ser feito pelo comissionamento.",
+  "resp": "Commissioning",
+  "note": ""
+ },
+ "3111": {
+  "category": "General J06",
+  "analysis": "RIC to be done by PCP responsible for material to be delivered onboard.",
+  "analysis_pt": "RIC a ser feito pelo PCP responsável pelo material a ser entregue a bordo.",
+  "resp": "PCP",
+  "note": ""
+ },
+ "3113": {
+  "category": "General J06",
+  "analysis": "Certificate to be issued by GTO team in the final moment for crossing milestone.",
+  "analysis_pt": "Certificado a ser emitido pela equipe da GTO no momento final para a passagem do marco.",
+  "resp": "GTO",
+  "note": ""
+ },
+ "3277": {
+  "category": "General J06",
+  "analysis": "Already validated by ICN. No further evidence required.",
+  "analysis_pt": "Já validado pela ICN. Nenhuma evidência adicional necessária.",
+  "resp": "— (Closed – no pending)",
+  "note": ""
+ },
+ "3278": {
+  "category": "General J06",
+  "analysis": "Commissioning STW ER2C; issue an RIC for the cases done manually.",
+  "analysis_pt": "Comissionamento STW ER2C; emitir um RIC para os casos feitos manualmente.",
+  "resp": "Commissioning",
+  "note": "Comissionamento STW ER2C e RIC para casos em que foram feitos manualmente."
+ },
+ "3279": {
+  "category": "General J06",
+  "analysis": "Check whether the safety rail has already been installed and whether the trolley will be used. Issue an RIC.",
+  "analysis_pt": "Verificar se o safety rail já foi instalado e se o trolley será utilizado. Emitir um RIC.",
+  "resp": "Ship Manager",
+  "note": "Verificar se o safety rail já foi instalado e se o trolley será utilizado. Emitir um RIC. Shipmanager"
+ },
+ "3280": {
+  "category": "General J06",
+  "analysis": "The Ship Managers team, or those in charge of key custody, can issue the RIC.",
+  "analysis_pt": "A equipe de Ship Managers, ou os responsáveis pela guarda das chaves, podem emitir o RIC.",
+  "resp": "Ship Manager",
+  "note": "Equipe SHIP Managers ou responsáveis pela guarda das chaves podem emitir o RIC."
+ },
+ "3281": {
+  "category": "General J06",
+  "analysis": "RIC issued by Production with the submarine on the shiplift. Visual inspection of the external area to ensure there are no pending items in the external area not accessible after floating. Replicate the RIC from SBR3. Check folder.",
+  "analysis_pt": "RIC emitido pela Produção com o submarino no shiplift. Inspeção visual da área externa para garantir que não há pendências na área externa não acessível após a flutuação. Replicar o RIC do SBR3. Verificar a pasta.",
+  "resp": "Production",
+  "note": "RIC emitido pela produção com o Submarino no Shiplift. Inspeção visual da area externa para garantir que não há pendencias na area externa não acessivel após flutuação. Replicar RIC"
+ },
+ "3282": {
+  "category": "General J06",
+  "analysis": "Similar to Item 3281 — same RIC. Replicate the RIC from SBR3. Check folder.",
+  "analysis_pt": "Semelhante ao Item 3281 — mesmo RIC. Replicar o RIC do SBR3. Verificar a pasta.",
+  "resp": "Production",
+  "note": "Similar ao Item 3281. Mesmo RIC. Replicar"
+ },
+ "3284": {
+  "category": "General J06",
+  "analysis": "Already validated by ICN. No further evidence required.",
+  "analysis_pt": "Já validado pela ICN. Nenhuma evidência adicional necessária.",
+  "resp": "— (Closed – no pending)",
+  "note": ""
+ },
+ "3285": {
+  "category": "General J06",
+  "analysis": "Onboard inspection: check all portable torches.",
+  "analysis_pt": "Inspeção a bordo: verificar todas as lanternas portáteis.",
+  "resp": "Quality (Onboard Inspection)",
+  "note": "Onboard inspection verificar todas as lanternas portáteis."
+ },
+ "3286": {
+  "category": "General J06",
+  "analysis": "Already validated by ICN. No further evidence required.",
+  "analysis_pt": "Já validado pela ICN. Nenhuma evidência adicional necessária.",
+  "resp": "— (Closed – no pending)",
+  "note": ""
+ },
+ "3287": {
+  "category": "General J06",
+  "analysis": "STW of EZ (EZ2C) and RIC with delivery of the masks to the crew.",
+  "analysis_pt": "STW do EZ (EZ2C) e RIC com a entrega das máscaras à tripulação.",
+  "resp": "Commissioning / PCP",
+  "note": "STW do EZ (EZ2C e RIC com entrega das mascaras para a tripulação - Comissionamento e PCP podem emitir)"
+ },
+ "3288": {
+  "category": "General J06",
+  "analysis": "Validate through Section 10 of the Onboard Inspection + EF2C test.",
+  "analysis_pt": "Validar pela Seção 10 da Inspeção a Bordo + teste EF2C.",
+  "resp": "Commissioning / Quality",
+  "note": "Validar ela Seção 10 da Onboard inspection + EF2C"
+ },
+ "3289": {
+  "category": "General J06",
+  "analysis": "Validated through Section 8 of the Onboard Inspection, or RIC stating it is onboard.",
+  "analysis_pt": "Validado pela Seção 8 da Inspeção a Bordo, ou RIC informando que está embarcado.",
+  "resp": "Quality (Onboard Inspection)",
+  "note": "Validado pela Seção 8 da Onboard Inspection ou RIC informando que esta embarcado."
+ },
+ "3290": {
+  "category": "General J06",
+  "analysis": "Execute the BT1C test. Commissioning to issue.",
+  "analysis_pt": "Executar o teste BT1C. Comissionamento a emitir.",
+  "resp": "Commissioning",
+  "note": "Execução do teste BT1C. Comissionamento emitir"
+ },
+ "3291": {
+  "category": "General J06",
+  "analysis": "Commissioning to prepare RIC. Replicate the RIC from SBR3. Check folder.",
+  "analysis_pt": "Comissionamento a preparar o RIC. Replicar o RIC do SBR3. Verificar a pasta.",
+  "resp": "Commissioning",
+  "note": "Comissionamento elaborar RIC. Disponivel na pasta. Replicar RIC"
+ },
+ "3292": {
+  "category": "General J06",
+  "analysis": "Already validated by ICN. No further evidence required.",
+  "analysis_pt": "Já validado pela ICN. Nenhuma evidência adicional necessária.",
+  "resp": "— (Closed – no pending)",
+  "note": ""
+ },
+ "3293": {
+  "category": "General J06",
+  "analysis": "RIC stating that the life jackets and safety harnesses will be provided by ICN.",
+  "analysis_pt": "RIC informando que os coletes salva-vidas e cintos de segurança serão fornecidos pela ICN.",
+  "resp": "Ship Manager",
+  "note": "RIC informando que os coletes e cintos de segurança serão fornecidos pela ICN. Shipmanager pode emitir."
+ },
+ "3294": {
+  "category": "General J06",
+  "analysis": "Commissioning to replicate the RIC from SBR3. Check folder.",
+  "analysis_pt": "Comissionamento a replicar o RIC do SBR3. Verificar a pasta.",
+  "resp": "Commissioning",
+  "note": "Comissionamento Replicar RIC"
+ },
+ "3295": {
+  "category": "General J06",
+  "analysis": "List of trainings (CAV) carried out by SP.",
+  "analysis_pt": "Lista de treinamentos (CAV) realizados pela SP.",
+  "resp": "SOP",
+  "note": "Lista de Treinamentos (CAV) feitos pela SP. SOP pode emitir."
+ },
+ "3298": {
+  "category": "General J06",
+  "analysis": "Already validated by ICN. No further evidence required.",
+  "analysis_pt": "Já validado pela ICN. Nenhuma evidência adicional necessária.",
+  "resp": "— (Closed – no pending)",
+  "note": ""
+ },
+ "3299": {
+  "category": "General J06",
+  "analysis": "Already validated by ICN. No further evidence required.",
+  "analysis_pt": "Já validado pela ICN. Nenhuma evidência adicional necessária.",
+  "resp": "— (Closed – no pending)",
+  "note": ""
+ },
+ "3306": {
+  "category": "General J06",
+  "analysis": "To be done close to the last day of milestone crossing",
+  "analysis_pt": "A ser feito próximo ao último dia da passagem do marco.",
+  "resp": "Ship Manager",
+  "note": ""
+ }
+}

@@ -26,8 +26,10 @@ data/enrichment.json          ─┤                └► J06_Dashboard.html (v
 templates/dashboard_template.html ┘
 ```
 
-- **`data/GTO__LIST_OF_ITEMS.xlsx`** — **fonte primária** (o usuário substitui este
-  arquivo, mantendo o nome, quando há atualização). Colunas relevantes na linha 2:
+- **`data/GTO__LIST_OF_ITEMS.xlsx`** — **fonte primária**. O usuário pode largar o
+  Excel novo em `data/` com **qualquer nome** (`GTO*.xlsx`); o script pega o mais
+  recente (`resolve_source`) e o renomeia para o nome canônico (`consolidate_source`),
+  removendo cópias antigas. Colunas relevantes na linha 2:
   `Item`, `Updated Status`, `Original Jx`, `Actual Jx`, `Description`, `Certificate`,
   `Context`. A data de atualização vem da célula *"Gerado em ..."* na linha 1.
 - **`data/status_history.json`** — lista de *snapshots* de status. O último snapshot é
@@ -42,10 +44,17 @@ templates/dashboard_template.html ┘
 | Coluna | Origem | Regra |
 |---|---|---|
 | **Status Atual** | `Updated Status` do GTO | Classificação vigente na versão mais recente. |
-| **Status Anterior** | Snapshot imediatamente anterior em `status_history.json` | Classificação antes da última atualização, casada por `Item`. |
+| **Status Anterior** | Snapshot **baseline fixo** em `status_history.json` | Referência antiga **fixa** (não desloca o "atual" para "anterior" a cada update). |
 
+- **Status Anterior é FIXO** no snapshot marcado com `"baseline": true` (por padrão o
+  primeiro, o estado pré-atualização do repositório). Para avançar a referência no
+  futuro, marque outro snapshot com `"baseline": true` (e remova a flag do antigo).
+- **Status 8 não existe:** `"8 - Awaiting full B05 completion"` é normalizado para
+  `"7 - Missing Vacuum Test or Sign"` em toda parte (`STATUS_REMAP` / `norm_status`).
 - Item **encerrado** = Status Atual em `{"1 - Validated by ICN", "2 - Not Blocking"}`
   (`CLOSED_SET`). KPIs e resumo por responsável usam sempre o **Status Atual**.
+- O script grava cada atualização com mudança como um snapshot em `status_history.json`;
+  a **linha do tempo por item** (`build_item_histories`) alimenta o fluxograma do HTML.
 - Item **alterado** = tem status anterior e ele difere do atual (`changed(d)` no HTML;
   aba **Status Changes** no Excel).
 - Item **novo** (sem histórico anterior) → Status Anterior aparece como `— (novo item)`.
@@ -69,7 +78,8 @@ Não há fórmulas na saída → **não precisa** rodar `recalc.py`.
 Gerada em `write_html()` a partir de **`templates/dashboard_template.html`**, que tem 4
 placeholders: `__DATA_JSON__`, `__LAST_UPDATED__`, `__ITEM_COUNT__`, `__SOURCE_LABEL__`.
 Os dados vão embutidos como `const DATA = [...]` (um objeto por item; campos: `item, ojx,
-ajx, desc, cert, category, status, status_prev, analysis, analysis_pt, resp, note, closed`).
+ajx, desc, cert, category, status, status_prev, analysis, analysis_pt, resp, note, closed,
+hist`). `hist` = linha do tempo `[{t: rótulo, s: status}, ...]` para o fluxograma.
 
 Recursos do dashboard (tudo client-side, sem backend):
 - Tabela **responsiva** com colunas **Status Anterior** e **Status Atual** + selo
@@ -79,6 +89,10 @@ Recursos do dashboard (tudo client-side, sem backend):
   (ignora o filtro de "encerrados").
 - Botão **"◆ Ressaltar alterados"** (`#hlChanged`) → alterna a classe `hl-mode` em
   `#groups`, destacando em dourado as linhas/post-its com classe `changed-row`.
+- **Fluxograma de status por item:** clicar no **nº do item** (na tabela ou nos
+  post-its) abre um **modal** (`#modal`) com o fluxograma das mudanças de status do
+  item ao longo do tempo (campo `hist` de cada objeto em `DATA`; nós coloridos por
+  `STATUS_COLOR`, do mais antigo ao mais recente). Fecha no ✕, no fundo ou com Esc.
 - **Última atualização** no canto superior direito (`.updbadge`).
 - Gráficos usam **Chart.js via CDN**; o código está protegido por
   `if(typeof Chart!=='undefined'){...}` — se o CDN falhar (ex.: offline), o resto do

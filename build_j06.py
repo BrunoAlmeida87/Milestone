@@ -8,29 +8,37 @@ O QUE FAZ
 Le o arquivo-fonte GTO (List of Items) que fica na pasta ./data/ e regenera:
   * J06_Items_Analysis.xlsx  (planilha com cabecalho congelado + filtros)
   * J06_Dashboard.html       (dashboard responsivo)
-Ambos passam a ter duas colunas de status:
-  * Status Anterior  -> classificacao vigente ANTES da ultima atualizacao
-  * Status Atual     -> classificacao vigente na fonte GTO mais recente
+Ambos tem duas colunas de status:
+  * Status Anterior  -> snapshot BASELINE fixo (classificacao antiga de referencia)
+  * Status Atual     -> classificacao vigente no GTO mais recente
+
+REGRAS ESPECIAIS
+----------------
+* Status Anterior e FIXO no snapshot marcado como "baseline" em status_history.json
+  (nao deslocamos o "atual" para "anterior" a cada atualizacao). Para avancar a
+  referencia, marque outro snapshot com "baseline": true (e remova a flag do atual).
+* O status "8 - Awaiting full B05 completion" NAO existe -> e normalizado para
+  "7 - Missing Vacuum Test or Sign" em toda parte (STATUS_REMAP).
+* Cada atualizacao com mudancas e gravada como um snapshot no historico; a linha do
+  tempo por item alimenta o fluxograma que abre ao clicar num item no dashboard.
 
 COMO ATUALIZAR (fluxo do usuario)
 ---------------------------------
-1. Substitua ./data/GTO__LIST_OF_ITEMS.xlsx pelo arquivo novo (mesmo nome).
+1. Coloque o Excel novo na pasta ./data/ (qualquer nome tipo "GTO ... .xlsx";
+   o script pega o mais recente e o renomeia para GTO__LIST_OF_ITEMS.xlsx).
 2. Rode:  python3 build_j06.py
-O script guarda um historico de snapshots em ./data/status_history.json.
-A cada execucao com dados diferentes, o snapshot atual vira "anterior"
-automaticamente, sem intervencao manual.
 
 FONTES DE DADOS (pasta ./data/)
 -------------------------------
   GTO__LIST_OF_ITEMS.xlsx  Fonte primaria (status atual, descricao, certificado...).
-  status_history.json      Historico de snapshots de status (base do Status Anterior).
+  status_history.json      Historico de snapshots de status (baseline + atualizacoes).
   enrichment.json          Analise EN/PT, responsavel, categoria (curados a mao).
 """
 
 import json
 import re
 import shutil
-from datetime import date, datetime
+from datetime import date
 from pathlib import Path
 
 import openpyxl
@@ -39,7 +47,7 @@ from openpyxl.utils import get_column_letter
 
 ROOT = Path(__file__).resolve().parent
 DATA = ROOT / "data"
-SRC_XLSX = DATA / "GTO__LIST_OF_ITEMS.xlsx"
+CANONICAL_SRC = DATA / "GTO__LIST_OF_ITEMS.xlsx"
 HISTORY_JSON = DATA / "status_history.json"
 ENRICH_JSON = DATA / "enrichment.json"
 TEMPLATE_HTML = ROOT / "templates" / "dashboard_template.html"
@@ -49,7 +57,16 @@ OUT_HTML = ROOT / "J06_Dashboard.html"
 # Status considerados "encerrados" (nao entram nas pendencias abertas).
 CLOSED_SET = {"1 - Validated by ICN", "2 - Not Blocking"}
 
-# Cor de preenchimento por status (Excel) — herdado do arquivo original + novos.
+# Status 8 nao existe -> tratar como 7.
+STATUS_REMAP = {"8 - Awaiting full B05 completion": "7 - Missing Vacuum Test or Sign"}
+
+
+def norm_status(s):
+    s = (s or "").strip()
+    return STATUS_REMAP.get(s, s)
+
+
+# Cor de preenchimento por status (Excel).
 STATUS_FILL = {
     "1 - Validated by ICN": "C6EFCE",
     "2 - Not Blocking": "E2EFDA",
@@ -59,17 +76,33 @@ STATUS_FILL = {
     "5 - Waiting Proof": "FFEB9C",
     "6 - Waiting B05": "DDEBF7",
     "7 - Missing Vacuum Test or Sign": "FFF2CC",
-    "8 - Awaiting full B05 completion": "D9D2E9",
 }
 
 CLOSED_MARKERS = ("Status closed", "Status encerrado", "no pending action")
 
 
 # --------------------------------------------------------------------------- #
-# Leitura da fonte GTO
+# Fonte GTO
 # --------------------------------------------------------------------------- #
+def resolve_source() -> Path:
+    """Pega o Excel GTO mais recente na pasta data/ (tolerante ao nome)."""
+    candidates = sorted(DATA.glob("GTO*.xlsx"), key=lambda p: p.stat().st_mtime, reverse=True)
+    if not candidates:
+        raise FileNotFoundError("Nenhum arquivo GTO*.xlsx encontrado em ./data/.")
+    return candidates[0]
+
+
+def consolidate_source(used: Path):
+    """Renomeia o arquivo usado para o nome canonico e remove GTO*.xlsx extras."""
+    if used.resolve() != CANONICAL_SRC.resolve():
+        shutil.copy2(used, CANONICAL_SRC)
+    for p in DATA.glob("GTO*.xlsx"):
+        if p.resolve() != CANONICAL_SRC.resolve():
+            p.unlink()
+
+
 def read_gto(path: Path):
-    """Le a planilha GTO. Retorna (registros_por_item, meta)."""
+    """Le a planilha GTO. Retorna (registros_por_item, meta). Status normalizados."""
     wb = openpyxl.load_workbook(path, data_only=True)
     ws = wb.active
     header = {ws.cell(2, c).value: c for c in range(1, ws.max_column + 1)}
@@ -95,10 +128,9 @@ def read_gto(path: Path):
             "ajx": ws.cell(r, c_ajx).value or "",
             "desc": ws.cell(r, c_desc).value or "",
             "cert": ws.cell(r, c_cert).value or "",
-            "status": (ws.cell(r, c_upd).value or "").strip(),
+            "status": norm_status(ws.cell(r, c_upd).value),
         }
 
-    # metadados: contrato e "Gerado em" ficam na linha 1 (cantos)
     meta = {"contract": "", "generated": ""}
     for c in range(1, ws.max_column + 1):
         v = ws.cell(1, c).value
@@ -110,54 +142,80 @@ def read_gto(path: Path):
     return items, meta
 
 
-def norm_generated(raw: str) -> str:
-    """'27/7/2026  10:42' -> '27/07/2026 10:42' (best-effort)."""
+def norm_generated(raw: str):
+    """'27/7/2026 11:52' -> ('27/07/2026 11:52', '27/07 11:52')."""
     if not raw:
-        return date.today().strftime("%d/%m/%Y")
+        d = date.today()
+        return d.strftime("%d/%m/%Y"), d.strftime("%d/%m")
     m = re.search(r"(\d{1,2})/(\d{1,2})/(\d{4})(?:\D+(\d{1,2}):(\d{2}))?", raw)
     if not m:
-        return raw
+        return raw, raw
     d, mo, y = int(m.group(1)), int(m.group(2)), m.group(3)
-    out = f"{d:02d}/{mo:02d}/{y}"
+    full = f"{d:02d}/{mo:02d}/{y}"
+    short = f"{d:02d}/{mo:02d}"
     if m.group(4):
-        out += f" {int(m.group(4)):02d}:{m.group(5)}"
-    return out
+        full += f" {int(m.group(4)):02d}:{m.group(5)}"
+        short += f" {int(m.group(4)):02d}:{m.group(5)}"
+    return full, short
+
+
+def _short_from_label(s):
+    m = re.search(r"(\d{1,2})/(\d{1,2})/\d{4}\D+(\d{1,2}):(\d{2})", s.get("label", ""))
+    if m:
+        return f"{int(m.group(1)):02d}/{int(m.group(2)):02d} {int(m.group(3)):02d}:{m.group(4)}"
+    return s.get("label", "snapshot")[:16]
 
 
 # --------------------------------------------------------------------------- #
-# Historico de status (base do Status Anterior)
+# Historico de status (baseline fixo + atualizacoes) e linha do tempo por item
 # --------------------------------------------------------------------------- #
-def update_history(current_statuses: dict, source_label: str):
-    """
-    Acrescenta o snapshot atual ao historico se houver mudanca real.
-    Retorna o dict {item: status} do snapshot ANTERIOR (para Status Anterior).
-    """
-    history = json.loads(HISTORY_JSON.read_text(encoding="utf-8"))
-    snaps = history["snapshots"]
-    last = snaps[-1]["statuses"]
+def sync_history(current: dict, source_label: str, short_label: str):
+    """Normaliza o historico, garante baseline, anexa snapshot novo se mudou.
+    Retorna (baseline_statuses, snapshots)."""
+    h = json.loads(HISTORY_JSON.read_text(encoding="utf-8"))
+    snaps = h["snapshots"]
 
-    if current_statuses != last:
+    # Normaliza (8->7) e garante rotulo curto.
+    for s in snaps:
+        s["statuses"] = {k: norm_status(v) for k, v in s["statuses"].items()}
+        if not s.get("short"):
+            s["short"] = "Inicial" if s is snaps[0] else _short_from_label(s)
+
+    # Garante um snapshot baseline (o primeiro, por padrao).
+    if not any(s.get("baseline") for s in snaps):
+        snaps[0]["baseline"] = True
+        snaps[0]["short"] = "Inicial"
+
+    # Anexa a atualizacao atual apenas se os status mudaram em relacao ao ultimo.
+    if current != snaps[-1]["statuses"]:
         snaps.append({
             "label": source_label,
+            "short": short_label,
             "date": date.today().isoformat(),
-            "source": SRC_XLSX.name,
-            "statuses": current_statuses,
+            "statuses": current,
         })
-        previous = last
-    else:
-        # Reexecucao sem mudanca de dados: mantem historico, usa o penultimo.
-        previous = snaps[-2]["statuses"] if len(snaps) >= 2 else last
 
-    HISTORY_JSON.write_text(
-        json.dumps(history, ensure_ascii=False, indent=1), encoding="utf-8"
-    )
-    return previous
+    baseline = next(s for s in snaps if s.get("baseline"))["statuses"]
+    HISTORY_JSON.write_text(json.dumps(h, ensure_ascii=False, indent=1), encoding="utf-8")
+    return baseline, snaps
+
+
+def build_item_histories(snapshots):
+    """Linha do tempo por item: [{t: rotulo, s: status}, ...] colapsando repeticoes."""
+    hist = {}
+    for s in snapshots:
+        lbl, statuses = s["short"], s["statuses"]
+        for item, stat in statuses.items():
+            seq = hist.setdefault(item, [])
+            if not seq or seq[-1]["s"] != stat:
+                seq.append({"t": lbl, "s": stat})
+    return hist
 
 
 # --------------------------------------------------------------------------- #
 # Montagem dos registros finais
 # --------------------------------------------------------------------------- #
-def build_records(gto: dict, previous: dict, enrich: dict):
+def build_records(gto, baseline, histories, enrich):
     records = []
     for key, g in gto.items():
         e = enrich.get(key, {})
@@ -170,13 +228,11 @@ def build_records(gto: dict, previous: dict, enrich: dict):
         category = e.get("category") or ("B05" if _looks_b05(g) else "General J06")
         note = e.get("note") or ""
 
-        # Coerencia analise x status atual.
         if not closed and any(mk in analysis for mk in CLOSED_MARKERS):
             analysis, analysis_pt = "", ""
         if closed and not analysis:
             analysis = "Status closed - no pending action."
             analysis_pt = "Status encerrado - sem acao pendente."
-        # Responsavel so faz sentido em item aberto.
         if not closed and (not resp or resp.startswith("—") or resp.startswith("-")):
             resp = ""
         if closed:
@@ -190,13 +246,14 @@ def build_records(gto: dict, previous: dict, enrich: dict):
             "category": category,
             "desc": g["desc"],
             "cert": g["cert"],
-            "status_prev": previous.get(key),   # Status Anterior
+            "status_prev": baseline.get(key),   # Status Anterior (baseline fixo)
             "status": status,                    # Status Atual
             "analysis": analysis,
             "analysis_pt": analysis_pt,
             "resp": resp,
             "note": note,
             "closed": closed,
+            "hist": histories.get(key, [{"t": "atual", "s": status}]),
         })
     records.sort(key=lambda d: int(d["item"]))
     return records
@@ -228,10 +285,8 @@ def write_excel(records, last_updated, source_label):
     border = Border(left=thin, right=thin, top=thin, bottom=thin)
     title_fill = PatternFill("solid", fgColor="1F3864")
     hdr_fill = PatternFill("solid", fgColor="2E5496")
-
     last_col = get_column_letter(NCOL)
 
-    # Linha 1 - titulo
     ws.merge_cells(f"A1:{last_col}1")
     t = ws["A1"]
     t.value = "J06 Items: Analysis, Status & Responsibility"
@@ -240,7 +295,6 @@ def write_excel(records, last_updated, source_label):
     t.alignment = Alignment(horizontal="center", vertical="center")
     ws.row_dimensions[1].height = 24
 
-    # Linha 2 - subtitulo (esq) + data de atualizacao (canto dir)
     ws.merge_cells("A2:G2")
     s = ws["A2"]
     n_open = sum(1 for r in records if not r["closed"])
@@ -255,7 +309,6 @@ def write_excel(records, last_updated, source_label):
     u.alignment = Alignment(horizontal="right", vertical="center")
     ws.row_dimensions[2].height = 18
 
-    # Linha 3 - cabecalhos
     for j, h in enumerate(HEADERS, start=1):
         c = ws.cell(3, j, h)
         c.font = Font(name="Arial", size=11, bold=True, color="FFFFFF")
@@ -264,7 +317,6 @@ def write_excel(records, last_updated, source_label):
         c.border = border
     ws.row_dimensions[3].height = 30
 
-    # Dados
     center = Alignment(horizontal="center", vertical="top", wrap_text=True)
     left = Alignment(horizontal="left", vertical="top", wrap_text=True)
     for i, d in enumerate(records):
@@ -281,51 +333,44 @@ def write_excel(records, last_updated, source_label):
             c.font = Font(name="Arial", size=10)
             c.border = border
             c.alignment = center if j in (1, 2, 3, 4, 5, 8, 9) else left
-        # Preenchimento por status nas colunas 8 (Anterior) e 9 (Atual)
-        prev_fill = STATUS_FILL.get(d["status_prev"])
-        if prev_fill:
-            ws.cell(r, 8).fill = PatternFill("solid", fgColor=prev_fill)
-        cur_fill = STATUS_FILL.get(d["status"])
-        if cur_fill:
-            ws.cell(r, 9).fill = PatternFill("solid", fgColor=cur_fill)
+        if STATUS_FILL.get(d["status_prev"]):
+            ws.cell(r, 8).fill = PatternFill("solid", fgColor=STATUS_FILL[d["status_prev"]])
+        if STATUS_FILL.get(d["status"]):
+            ws.cell(r, 9).fill = PatternFill("solid", fgColor=STATUS_FILL[d["status"]])
         if changed:
             ws.cell(r, 9).font = Font(name="Arial", size=10, bold=True)
 
-    # Larguras, congelamento e filtro
     for j, w in enumerate(COL_WIDTHS, start=1):
         ws.column_dimensions[get_column_letter(j)].width = w
     ws.freeze_panes = "A4"
     ws.auto_filter.ref = f"A3:{last_col}{3 + len(records)}"
 
-    _write_summary(wb, records, last_updated)
+    _write_summary(wb, records)
     _write_changelog(wb, records, last_updated)
+    _write_history_sheet(wb, records)
     wb.save(OUT_XLSX)
 
 
-def _write_summary(wb, records, last_updated):
+def _write_summary(wb, records):
     ws = wb.create_sheet("Summary by Responsible")
     fmt = lambda r: r if (r and r.strip() and not r.startswith("—")) else "(To be assigned)"
     groups = {}
     for d in records:
         if d["closed"]:
             continue
-        g = fmt(d["resp"])
-        groups.setdefault(g, []).append(d)
+        groups.setdefault(fmt(d["resp"]), []).append(d)
 
     ws.merge_cells("A1:E1")
     ws["A1"] = "Open Items by Responsible (excludes closed: Validated / Not Blocking)"
     ws["A1"].font = Font(name="Arial", size=12, bold=True, color="FFFFFF")
     ws["A1"].fill = PatternFill("solid", fgColor="1F3864")
     ws["A1"].alignment = Alignment(horizontal="center", vertical="center")
-
     for j, h in enumerate(["Responsible", "Total", "Blocking", "Waiting/Other", "Items"], 1):
         c = ws.cell(2, j, h)
         c.font = Font(name="Arial", size=11, bold=True, color="FFFFFF")
         c.fill = PatternFill("solid", fgColor="2E5496")
         c.alignment = Alignment(horizontal="center", vertical="center")
-
-    order = sorted(groups, key=lambda g: -len(groups[g]))
-    for i, g in enumerate(order):
+    for i, g in enumerate(sorted(groups, key=lambda g: -len(groups[g]))):
         rows = groups[g]
         blk = sum(1 for d in rows if d["status"] == "3 - Blocking")
         items = ", ".join(str(d["item"]) for d in sorted(rows, key=lambda d: int(d["item"])))
@@ -340,12 +385,11 @@ def _write_summary(wb, records, last_updated):
 
 
 def _write_changelog(wb, records, last_updated):
-    """Aba com os itens que mudaram de status na ultima atualizacao."""
     changed = [d for d in records
                if d["status_prev"] not in (None, "") and d["status_prev"] != d["status"]]
     ws = wb.create_sheet("Status Changes")
     ws.merge_cells("A1:D1")
-    ws["A1"] = f"Mudanças de status na última atualização ({last_updated}) — {len(changed)} item(ns)"
+    ws["A1"] = f"Mudanças de status (Anterior → Atual) — {len(changed)} item(ns)"
     ws["A1"].font = Font(name="Arial", size=12, bold=True, color="FFFFFF")
     ws["A1"].fill = PatternFill("solid", fgColor="1F3864")
     ws["A1"].alignment = Alignment(horizontal="center", vertical="center")
@@ -369,6 +413,31 @@ def _write_changelog(wb, records, last_updated):
     ws.freeze_panes = "A3"
 
 
+def _write_history_sheet(wb, records):
+    """Linha do tempo de status por item (mesma fonte do fluxograma do HTML)."""
+    ws = wb.create_sheet("Item History")
+    ws.merge_cells("A1:B1")
+    ws["A1"] = "Histórico de status por item (Inicial → ... → Atual)"
+    ws["A1"].font = Font(name="Arial", size=12, bold=True, color="FFFFFF")
+    ws["A1"].fill = PatternFill("solid", fgColor="1F3864")
+    ws["A1"].alignment = Alignment(horizontal="center", vertical="center")
+    for j, h in enumerate(["Item", "Linha do tempo de status"], 1):
+        c = ws.cell(2, j, h)
+        c.font = Font(name="Arial", size=11, bold=True, color="FFFFFF")
+        c.fill = PatternFill("solid", fgColor="2E5496")
+        c.alignment = Alignment(horizontal="center", vertical="center")
+    for i, d in enumerate(records):
+        timeline = "  →  ".join(f"{n['s']} ({n['t']})" for n in d["hist"])
+        ws.cell(3 + i, 1, d["item"]).font = Font(name="Arial", size=10, bold=True)
+        ws.cell(3 + i, 1).alignment = Alignment(horizontal="center", vertical="top")
+        c = ws.cell(3 + i, 2, timeline)
+        c.font = Font(name="Arial", size=10)
+        c.alignment = Alignment(horizontal="left", vertical="top", wrap_text=True)
+    ws.column_dimensions["A"].width = 8
+    ws.column_dimensions["B"].width = 110
+    ws.freeze_panes = "A3"
+
+
 # --------------------------------------------------------------------------- #
 # Saida HTML
 # --------------------------------------------------------------------------- #
@@ -380,6 +449,7 @@ def write_html(records, last_updated, source_label):
         "status": d["status"], "status_prev": d["status_prev"],
         "analysis": d["analysis"], "analysis_pt": d["analysis_pt"],
         "resp": d["resp"], "note": d["note"], "closed": d["closed"],
+        "hist": d["hist"],
     } for d in records]
     html = (tpl
             .replace("__DATA_JSON__", json.dumps(payload, ensure_ascii=False))
@@ -391,25 +461,28 @@ def write_html(records, last_updated, source_label):
 
 # --------------------------------------------------------------------------- #
 def main():
-    gto, meta = read_gto(SRC_XLSX)
-    generated = norm_generated(meta.get("generated", ""))
+    src = resolve_source()
+    gto, meta = read_gto(src)
+    generated, gen_short = norm_generated(meta.get("generated", ""))
     last_updated = generated
     source_label = "GTO List of Items"
     if meta.get("generated"):
         source_label += f" · gerado em {generated}"
 
     current = {k: v["status"] for k, v in gto.items()}
-    previous = update_history(current, source_label)
+    baseline, snapshots = sync_history(current, source_label, gen_short)
+    histories = build_item_histories(snapshots)
     enrich = json.loads(ENRICH_JSON.read_text(encoding="utf-8"))
 
-    records = build_records(gto, previous, enrich)
+    records = build_records(gto, baseline, histories, enrich)
     write_excel(records, last_updated, source_label)
     write_html(records, last_updated, source_label)
+    consolidate_source(src)
 
     changed = sum(1 for d in records
                   if d["status_prev"] not in (None, "") and d["status_prev"] != d["status"])
-    print(f"OK · {len(records)} itens · {changed} mudanca(s) de status · "
-          f"atualizacao {last_updated}")
+    print(f"OK · fonte: {src.name} · {len(records)} itens · {changed} alterado(s) "
+          f"vs baseline · {len(snapshots)} snapshot(s) · atualizacao {last_updated}")
     print(f"  -> {OUT_XLSX.name}")
     print(f"  -> {OUT_HTML.name}")
 

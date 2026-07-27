@@ -89,7 +89,27 @@ td.notecell{max-width:220px}
 table{width:100%;border-collapse:collapse;font-size:12.5px}
 th,td{padding:8px 10px;text-align:left;border-top:1px solid var(--line);vertical-align:top}
 th{background:var(--panel);color:var(--muted);font-weight:600;position:sticky;top:0;cursor:pointer;white-space:nowrap}
-td.item{font-weight:700;color:var(--accent)}
+td.item{font-weight:700;color:var(--accent);cursor:pointer}
+td.item:hover{text-decoration:underline}
+.postit .p-item{cursor:pointer}
+/* Flowchart modal */
+.modal-bk{position:fixed;inset:0;background:rgba(4,8,18,.74);display:none;align-items:center;justify-content:center;z-index:200;padding:20px}
+.modal-bk.open{display:flex}
+.modal{background:var(--panel);border:1px solid var(--line);border-radius:14px;max-width:900px;width:100%;max-height:88vh;overflow:auto;box-shadow:0 24px 70px rgba(0,0,0,.6)}
+.modal-h{display:flex;align-items:center;gap:10px;padding:15px 20px;border-bottom:1px solid var(--line);position:sticky;top:0;background:var(--panel);z-index:1}
+.modal-h .mi{font-weight:800;color:var(--accent);font-size:18px}
+.modal-h .mt{color:var(--muted);font-size:12.5px}
+.modal-h .mx{margin-left:auto;cursor:pointer;color:var(--muted);font-size:18px;border:1px solid var(--line);border-radius:8px;width:32px;height:32px;display:flex;align-items:center;justify-content:center}
+.modal-h .mx:hover{color:var(--txt);border-color:var(--accent)}
+.modal-b{padding:18px 20px}
+.modal-desc{color:var(--txt);font-size:13px;margin-bottom:6px;line-height:1.5}
+.modal-sub{color:var(--muted);font-size:12px;margin-bottom:18px}
+.flow{display:flex;flex-wrap:wrap;align-items:flex-start;gap:2px}
+.flow-node{display:flex;flex-direction:column;gap:6px;align-items:center;text-align:center;min-width:135px;max-width:200px}
+.flow-box{border-radius:10px;padding:10px 12px;font-size:12px;font-weight:700;color:#0c1220;width:100%;line-height:1.25}
+.flow-t{font-size:11px;color:var(--muted)}
+.flow-arrow{display:flex;align-items:center;color:var(--accent);font-size:22px;padding:24px 4px 0}
+.flow-empty{color:var(--muted);font-style:italic;margin-bottom:12px}
 .b05tag{display:inline-block;margin-left:6px;background:rgba(155,109,255,.22);color:#c3a6ff;font-size:9.5px;font-weight:700;padding:1px 6px;border-radius:10px;vertical-align:middle}
 tr:hover td{background:rgba(79,140,255,.06)}
 .badge{display:inline-block;padding:2px 8px;border-radius:20px;font-size:11px;font-weight:600;white-space:nowrap}
@@ -174,7 +194,16 @@ tr:hover td{background:rgba(79,140,255,.06)}
     </div>
     <div id="groups"></div>
   </div>
-  <div class="foot">Interactive dashboard — filters and grouping update live. Blocking items are highlighted in red.<br>Status Atual = GTO List of Items (fonte primária) · Status Anterior = snapshot anterior · Última atualização: __LAST_UPDATED__</div>
+  <div class="foot">Interactive dashboard — filters and grouping update live. Blocking items are highlighted in red.<br>Status Atual = GTO List of Items (fonte primária) · Status Anterior = baseline fixo · Clique no <b>nº do item</b> para ver o fluxograma de status · Última atualização: __LAST_UPDATED__</div>
+</div>
+<div class="modal-bk" id="modal">
+  <div class="modal">
+    <div class="modal-h">
+      <span class="mi" id="mItem">#</span><span class="mt" id="mCert"></span>
+      <span class="mx" id="mClose">✕</span>
+    </div>
+    <div class="modal-b" id="mBody"></div>
+  </div>
 </div>
 <script>
 const DATA = __DATA_JSON__;
@@ -323,7 +352,7 @@ function rowsHtml(items){
     <th>Item</th><th>OrigJx</th><th>ActJx</th><th>Description</th><th>Certificate / Evidence</th>
     <th>Status Anterior</th><th>Status Atual</th><th>Analysis (GTO)</th><th>Responsible</th></tr></thead><tbody>`+
     items.map(d=>`<tr class="${isClosed(d)?'row-closed':''} ${changed(d)?'changed-row':''}">
-      <td class="item">${d.item}${d.category==='B05'?'<span class="b05tag">B05</span>':''}</td>
+      <td class="item" data-flow="${d.item}" title="Ver fluxograma de status">${d.item}${d.category==='B05'?'<span class="b05tag">B05</span>':''}</td>
       <td class="jx">${d.ojx||''}</td>
       <td class="jx">${d.ajx||''}</td>
       <td>${esc(d.desc)}</td>
@@ -341,7 +370,7 @@ function shortStatus(s){return s.replace(/^\d+\s*-\s*/,'');}
 function postit(d){
   const col=STATUS_COLOR[d.status]||'#7c89a8';
   return `<div class="postit ${isClosed(d)?'closed':''} ${changed(d)?'changed-row':''}" style="border-left-color:${col}">
-    <div class="p-top"><span class="p-item">#${d.item}</span>${d.category==='B05'?'<span class="b05tag">B05</span>':''}<span class="badge ${STATUS_CLASS[d.status]||'b-slate'}">${esc(shortStatus(d.status))}</span>${changed(d)?'<span class="chg">alterado</span>':''}</div>
+    <div class="p-top"><span class="p-item" data-flow="${d.item}" title="Ver fluxograma de status">#${d.item}</span>${d.category==='B05'?'<span class="b05tag">B05</span>':''}<span class="badge ${STATUS_CLASS[d.status]||'b-slate'}">${esc(shortStatus(d.status))}</span>${changed(d)?'<span class="chg">alterado</span>':''}</div>
     <div class="p-desc">${esc(d.desc)}</div>
     ${d.analysis?`<div class="p-ana">${esc(d.analysis)}</div>`:''}
     <div style="margin-top:7px"><span class="badge b-slate" style="font-weight:600">👤 ${d.resp?esc(d.resp):'To assign'}</span></div>
@@ -395,6 +424,38 @@ function render(){
         <span class="arrow">▾</span>
       </div>${rowsHtml(groups[g])}</div>`;}).join('');
 }
+
+// ---- Fluxograma de status por item (modal) ----
+const BYITEM={};DATA.forEach(d=>BYITEM[d.item]=d);
+const modal=document.getElementById('modal');
+function flowBox(s){return `<div class="flow-box" style="background:${STATUS_COLOR[s]||'#7c89a8'}">${esc(shortStatus(s))}</div>`;}
+function openFlow(item){
+  const d=BYITEM[item]; if(!d)return;
+  const h=(d.hist&&d.hist.length)?d.hist:[{t:'atual',s:d.status}];
+  document.getElementById('mItem').textContent='Item #'+d.item+(d.category==='B05'?'  ·  B05':'');
+  document.getElementById('mCert').textContent=d.cert?('· '+d.cert):'';
+  let body=`<div class="modal-desc">${esc(d.desc)}</div>`+
+           `<div class="modal-sub">Responsável: ${d.resp?esc(d.resp):'(a definir)'} · Categoria: ${esc(d.category)}</div>`;
+  if(h.length<=1){
+    body+=`<div class="flow-empty">Sem mudanças de status registradas — status estável desde o início.</div>`+
+          `<div class="flow"><div class="flow-node">${flowBox(h[0].s)}<div class="flow-t">${esc(h[0].t)}</div></div></div>`;
+  }else{
+    body+=`<div class="flow-empty">${h.length} etapas de status registradas (mais antiga → mais recente):</div>`+
+      '<div class="flow">'+h.map((n,i)=>
+        `<div class="flow-node">${flowBox(n.s)}<div class="flow-t">${esc(n.t)}</div></div>`+
+        (i<h.length-1?'<div class="flow-arrow">→</div>':'')
+      ).join('')+'</div>';
+  }
+  document.getElementById('mBody').innerHTML=body;
+  modal.classList.add('open');
+}
+function closeFlow(){modal.classList.remove('open');}
+document.getElementById('mClose').onclick=closeFlow;
+modal.addEventListener('click',e=>{if(e.target===modal)closeFlow();});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeFlow();});
+document.getElementById('groups').addEventListener('click',e=>{
+  const el=e.target.closest('[data-flow]'); if(el)openFlow(+el.dataset.flow);});
+
 render();
 </script>
 </body></html>

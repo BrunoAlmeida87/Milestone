@@ -37,6 +37,12 @@ h1{margin:0;font-size:20px;font-weight:700}
 .controls button.ghost{background:transparent;border:1px solid var(--line);color:var(--muted)}
 .controls .imp{background:#204a2e;border:1px solid #2f7d4a;color:#bff0cf;padding:8px 14px;border-radius:8px;cursor:pointer;font-size:13px}
 .controls .count{margin-left:auto;color:var(--muted);font-size:13px}
+.controls .hlbtn{background:transparent;border:1px solid var(--gold,#d99a2b);color:#f0c674}
+.controls .hlbtn.active{background:#d99a2b;border-color:#d99a2b;color:#1a1400;font-weight:700}
+.hl-mode tr.changed-row td{background:rgba(217,154,43,.16)!important}
+.hl-mode tr.changed-row td.item{box-shadow:inset 3px 0 0 #d99a2b}
+.postit.changed-row{outline:2px solid #d99a2b;outline-offset:-1px}
+.hl-mode .postit:not(.changed-row){opacity:.4}
 .impstatus{color:#8bd0a3;font-size:12px;margin-top:8px;min-height:14px}
 .note{margin-top:6px;background:rgba(232,185,59,.14);border-left:3px solid var(--yellow);
   border-radius:0 6px 6px 0;padding:6px 9px;font-size:12px;color:#f2d98a}
@@ -146,6 +152,8 @@ tr:hover td{background:rgba(79,140,255,.06)}
     <div class="controls">
       <input id="search" placeholder="Search item, description, analysis...">
       <label class="toggle"><input type="checkbox" id="showClosed"> Show closed (Validated / Not Blocking)</label>
+      <label class="toggle"><input type="checkbox" id="onlyChanged"> Somente alterados</label>
+      <button id="hlChanged" class="hlbtn" type="button">◆ Ressaltar alterados</button>
       <button id="reset">Reset</button>
       <span class="count" id="count"></span>
     </div>
@@ -273,18 +281,31 @@ document.querySelectorAll('.groupbar button[data-g]').forEach(b=>b.onclick=()=>{
 document.querySelectorAll('.groupbar button[data-v]').forEach(b=>b.onclick=()=>{
   document.querySelectorAll('.groupbar button[data-v]').forEach(x=>x.classList.remove('active'));
   b.classList.add('active');viewMode=b.dataset.v;render();});
+function changed(d){return d.status_prev!=null && d.status_prev!=='' && d.status_prev!==d.status;}
+const changedCount=DATA.filter(changed).length;
+
+let highlightChanged=false;
+const hlBtn=document.getElementById('hlChanged');
+hlBtn.textContent=`◆ Ressaltar alterados (${changedCount})`;
+hlBtn.onclick=()=>{highlightChanged=!highlightChanged;hlBtn.classList.toggle('active',highlightChanged);render();};
+
 document.getElementById('search').addEventListener('input',render);
 document.getElementById('showClosed').addEventListener('change',render);
+document.getElementById('onlyChanged').addEventListener('change',render);
 document.getElementById('reset').onclick=()=>{
   document.getElementById('search').value='';
   document.getElementById('showClosed').checked=false;
+  document.getElementById('onlyChanged').checked=false;
+  highlightChanged=false;hlBtn.classList.remove('active');
   MS.status();MS.resp();MS.category();render();};
 
 function filtered(){
   const q=document.getElementById('search').value.toLowerCase();
   const showClosed=document.getElementById('showClosed').checked;
+  const onlyChanged=document.getElementById('onlyChanged').checked;
   return DATA.filter(d=>{
-    if(!showClosed && isClosed(d) && F.status.size===0)return false;
+    if(onlyChanged && !changed(d))return false;
+    if(!onlyChanged && !showClosed && isClosed(d) && F.status.size===0)return false;
     if(F.status.size && !F.status.has(d.status))return false;
     if(F.resp.size && !F.resp.has(fmtResp(d.resp)))return false;
     if(F.category.size && !F.category.has(d.category))return false;
@@ -297,12 +318,11 @@ function statusPrevCell(d){
   if(d.status_prev==null||d.status_prev==='') return '<span class=pending>— (novo item) —</span>';
   return `<span class="badge ${STATUS_CLASS[d.status_prev]||'b-slate'} stprev">${esc(d.status_prev)}</span>`;
 }
-function changed(d){return d.status_prev!=null && d.status_prev!=='' && d.status_prev!==d.status;}
 function rowsHtml(items){
   return `<table><thead><tr>
     <th>Item</th><th>OrigJx</th><th>ActJx</th><th>Description</th><th>Certificate / Evidence</th>
     <th>Status Anterior</th><th>Status Atual</th><th>Analysis (GTO)</th><th>Responsible</th></tr></thead><tbody>`+
-    items.map(d=>`<tr class="${isClosed(d)?'row-closed':''}">
+    items.map(d=>`<tr class="${isClosed(d)?'row-closed':''} ${changed(d)?'changed-row':''}">
       <td class="item">${d.item}${d.category==='B05'?'<span class="b05tag">B05</span>':''}</td>
       <td class="jx">${d.ojx||''}</td>
       <td class="jx">${d.ajx||''}</td>
@@ -320,8 +340,8 @@ function shortStatus(s){return s.replace(/^\d+\s*-\s*/,'');}
 // ---- Board (post-it) view ----
 function postit(d){
   const col=STATUS_COLOR[d.status]||'#7c89a8';
-  return `<div class="postit ${isClosed(d)?'closed':''}" style="border-left-color:${col}">
-    <div class="p-top"><span class="p-item">#${d.item}</span>${d.category==='B05'?'<span class="b05tag">B05</span>':''}<span class="badge ${STATUS_CLASS[d.status]||'b-slate'}">${esc(shortStatus(d.status))}</span></div>
+  return `<div class="postit ${isClosed(d)?'closed':''} ${changed(d)?'changed-row':''}" style="border-left-color:${col}">
+    <div class="p-top"><span class="p-item">#${d.item}</span>${d.category==='B05'?'<span class="b05tag">B05</span>':''}<span class="badge ${STATUS_CLASS[d.status]||'b-slate'}">${esc(shortStatus(d.status))}</span>${changed(d)?'<span class="chg">alterado</span>':''}</div>
     <div class="p-desc">${esc(d.desc)}</div>
     ${d.analysis?`<div class="p-ana">${esc(d.analysis)}</div>`:''}
     <div style="margin-top:7px"><span class="badge b-slate" style="font-weight:600">👤 ${d.resp?esc(d.resp):'To assign'}</span></div>
@@ -351,6 +371,7 @@ function render(){
   const items=filtered();
   document.getElementById('count').textContent=items.length+' of '+DATA.length+' items';
   const box=document.getElementById('groups');
+  box.classList.toggle('hl-mode',highlightChanged);
   if(viewMode==='board'){
     box.innerHTML=renderBoard(items);
     box.querySelectorAll('.bs-item').forEach(el=>el.onclick=()=>{

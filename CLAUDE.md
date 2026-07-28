@@ -75,8 +75,9 @@ Não há fórmulas na saída → **não precisa** rodar `recalc.py`.
 
 ## 5. Saída HTML (`J06_Dashboard.html`)
 
-Gerada em `write_html()` a partir de **`templates/dashboard_template.html`**, que tem 4
-placeholders: `__DATA_JSON__`, `__LAST_UPDATED__`, `__ITEM_COUNT__`, `__SOURCE_LABEL__`.
+Gerada em `write_html()` a partir de **`templates/dashboard_template.html`**, que tem 5
+placeholders: `__DATA_JSON__`, `__PROGRESS_JSON__`, `__LAST_UPDATED__`, `__ITEM_COUNT__`,
+`__SOURCE_LABEL__`.
 Os dados vão embutidos como `const DATA = [...]` (um objeto por item; campos: `item, ojx,
 ajx, desc, cert, category, status, status_prev, analysis, analysis_pt, resp, note, closed,
 hist`). `hist` = linha do tempo `[{t: rótulo, s: status}, ...]` para o fluxograma.
@@ -93,6 +94,11 @@ Recursos do dashboard (tudo client-side, sem backend):
   post-its) abre um **modal** (`#modal`) com o fluxograma das mudanças de status do
   item ao longo do tempo (campo `hist` de cada objeto em `DATA`; nós coloridos por
   `STATUS_COLOR`, do mais antigo ao mais recente). Fecha no ✕, no fundo ou com Esc.
+- **Abas** (`.tabs`): **📊 Dashboard** (tabela/filtros/gráficos) e **📈 Progresso**.
+- **Aba Progresso** (`#tab-progress`, dados em `const PROGRESS = {...}` via
+  `build_progress`): compara a **primeira fotografia (Inicial)** com a **atual** — anel de
+  % concluído, cartões Antes × Hoje com delta colorido (melhor/pior), gráfico de status
+  Antes×Hoje, gráfico de evolução no tempo e tabela-resumo por snapshot.
 - **Última atualização** no canto superior direito (`.updbadge`).
 - Gráficos usam **Chart.js via CDN**; o código está protegido por
   `if(typeof Chart!=='undefined'){...}` — se o CDN falhar (ex.: offline), o resto do

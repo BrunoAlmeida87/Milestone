@@ -95,6 +95,11 @@ Recursos do dashboard (tudo client-side, sem backend):
   item ao longo do tempo (campo `hist` de cada objeto em `DATA`; nós coloridos por
   `STATUS_COLOR`, do mais antigo ao mais recente). Fecha no ✕, no fundo ou com Esc.
 - **Abas** (`.tabs`): **📊 Dashboard** (tabela/filtros/gráficos) e **📈 Progresso**.
+- **Idioma PT/EN** (`.langsw`): todo o texto da UI vem do dicionário `I18N` via `tr(k)`;
+  `setLang()` reaplica os rótulos (`data-i18n`/`data-i18n-ph`) e re-renderiza. Padrão PT.
+- **Movimentações** na aba Progresso são **agrupadas pelo status de origem** (cada origem
+  uma vez, apontando para os vários destinos), em dois formatos: lista com barras
+  (`#progFlow`) e cartões com números (`#progMoveCards`).
 - **Aba Progresso** (`#tab-progress`, dados em `const PROGRESS = {...}` via
   `build_progress`): compara a **primeira fotografia (Inicial)** com a **atual** — anel de
   % concluído, cartões Antes × Hoje com delta colorido (melhor/pior), seção **"O que

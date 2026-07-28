@@ -56,14 +56,33 @@ h1{margin:0;font-size:20px;font-weight:700}
 .hl-chip .hn{font-size:26px;font-weight:800;line-height:1}
 .hl-chip .hl2{color:var(--muted);font-size:12px}
 .hl-chip.good .hn{color:var(--green)} .hl-chip.warn .hn{color:var(--red)} .hl-chip.info .hn{color:var(--accent)}
-.flowlist{display:flex;flex-direction:column;gap:8px}
-.flowrow{display:flex;align-items:center;gap:10px;padding:8px 10px;border:1px solid var(--line);border-radius:10px;background:var(--panel2)}
+.flowlist{display:flex;flex-direction:column;gap:14px}
+.flowgroup{border:1px solid var(--line);border-radius:12px;background:var(--panel2);overflow:hidden}
+.fg-head{display:flex;align-items:center;gap:10px;padding:10px 12px;border-bottom:1px solid var(--line);background:rgba(255,255,255,.02)}
+.fg-head .fg-tot{color:var(--muted);font-size:12px;font-weight:600}
+.fg-targets{display:flex;flex-direction:column;gap:6px;padding:10px 12px}
+.flowrow{display:flex;align-items:center;gap:10px}
 .flowrow .fa{font-size:16px}
 .flowrow.imp .fa{color:var(--green)} .flowrow.reg .fa{color:var(--red)}
-.flowrow .fc{margin-left:2px;color:var(--muted);font-size:12px;white-space:nowrap}
+.flowrow .fc{margin-left:2px;color:var(--txt);font-size:12px;font-weight:700;white-space:nowrap;min-width:24px;text-align:right}
 .flowrow .fbar{flex:1;height:8px;border-radius:6px;background:rgba(255,255,255,.06);overflow:hidden;min-width:60px}
 .flowrow .fbar>span{display:block;height:100%;border-radius:6px}
 .flow-cap{color:var(--muted);font-size:12px;margin:2px 0 12px}
+/* Movimentações em cartões */
+.mv-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px}
+.mv-card{background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+.mv-card .mv-from{margin-bottom:8px}
+.mv-card .mv-tot{display:flex;align-items:baseline;gap:8px;margin-bottom:10px}
+.mv-card .mv-tot b{font-size:30px;font-weight:800;line-height:1}
+.mv-card .mv-tot span{color:var(--muted);font-size:12px}
+.mv-brk{display:flex;flex-direction:column;gap:6px}
+.mv-line{display:flex;align-items:center;gap:8px;font-size:12px}
+.mv-line .mv-ar.imp{color:var(--green)} .mv-line .mv-ar.reg{color:var(--red)}
+.mv-line b{margin-left:auto;font-size:13px}
+/* Seletor de idioma */
+.langsw{margin-left:auto;display:flex;gap:2px;align-self:center;background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:3px}
+.langsw button{background:transparent;border:none;color:var(--muted);padding:5px 12px;border-radius:6px;font-size:12px;font-weight:700;cursor:pointer}
+.langsw button.active{background:var(--accent);color:#fff}
 #progTable{width:100%;border-collapse:collapse;font-size:12.5px}
 #progTable th,#progTable td{padding:9px 12px;text-align:left;border-top:1px solid var(--line);white-space:nowrap}
 #progTable th{color:var(--muted);font-weight:600}
@@ -214,22 +233,26 @@ tr:hover td{background:rgba(79,140,255,.06)}
 </header>
 <div class="wrap">
   <div class="tabs">
-    <button class="tab active" data-tab="dashboard">📊 Dashboard</button>
-    <button class="tab" data-tab="progress">📈 Progresso</button>
+    <button class="tab active" data-tab="dashboard" data-i18n="tabDash">📊 Painel</button>
+    <button class="tab" data-tab="progress" data-i18n="tabProg">📈 Progresso</button>
+    <div class="langsw">
+      <button data-lang="pt" class="active">PT</button>
+      <button data-lang="en">EN</button>
+    </div>
   </div>
   <div id="tab-dashboard">
   <div class="kpis" id="kpis"></div>
   <div class="grid2">
-    <div class="card"><h3>By Status (all items)</h3><div class="chart-box"><canvas id="chStatus"></canvas></div></div>
-    <div class="card"><h3>By Responsible (open pendencies)</h3><div class="chart-box"><canvas id="chResp"></canvas></div></div>
+    <div class="card"><h3 data-i18n="byStatus">By Status (all items)</h3><div class="chart-box"><canvas id="chStatus"></canvas></div></div>
+    <div class="card"><h3 data-i18n="byResp">By Responsible (open pendencies)</h3><div class="chart-box"><canvas id="chResp"></canvas></div></div>
   </div>
   <div class="card" style="margin-bottom:20px">
     <div class="controls">
-      <input id="search" placeholder="Search item, description, analysis...">
-      <label class="toggle"><input type="checkbox" id="showClosed"> Show closed (Validated / Not Blocking)</label>
-      <label class="toggle"><input type="checkbox" id="onlyChanged"> Somente alterados</label>
-      <button id="hlChanged" class="hlbtn" type="button">◆ Ressaltar alterados</button>
-      <button id="reset">Reset</button>
+      <input id="search" placeholder="Search item, description, analysis..." data-i18n-ph="searchPh">
+      <label class="toggle"><input type="checkbox" id="showClosed"> <span data-i18n="showClosed">Show closed (Validated / Not Blocking)</span></label>
+      <label class="toggle"><input type="checkbox" id="onlyChanged"> <span data-i18n="onlyChanged">Somente alterados</span></label>
+      <button id="hlChanged" class="hlbtn" type="button" data-i18n="hlChanged">◆ Ressaltar alterados</button>
+      <button id="reset" data-i18n="reset">Reset</button>
       <span class="count" id="count"></span>
     </div>
     <div class="filterrow">
@@ -238,14 +261,14 @@ tr:hover td{background:rgba(79,140,255,.06)}
       <div class="ms" id="fCat"></div>
     </div>
     <div class="groupbar">
-      <span style="color:var(--muted);align-self:center;font-size:12px">Group by:</span>
-      <button data-g="resp" class="active">Responsible</button>
-      <button data-g="status">Status</button>
-      <button data-g="category">Category (B05)</button>
-      <button data-g="none">None (flat)</button>
-      <span class="viewseg"><span class="vl">View:</span>
-        <button data-v="list" class="active">List</button>
-        <button data-v="board">Board</button></span>
+      <span style="color:var(--muted);align-self:center;font-size:12px" data-i18n="groupBy">Group by:</span>
+      <button data-g="resp" class="active" data-i18n="gResp">Responsible</button>
+      <button data-g="status" data-i18n="gStatus">Status</button>
+      <button data-g="category" data-i18n="gCat">Category (B05)</button>
+      <button data-g="none" data-i18n="gNone">None (flat)</button>
+      <span class="viewseg"><span class="vl" data-i18n="view">View:</span>
+        <button data-v="list" class="active" data-i18n="vList">List</button>
+        <button data-v="board" data-i18n="vBoard">Board</button></span>
     </div>
     <div id="groups"></div>
   </div>
@@ -253,28 +276,32 @@ tr:hover td{background:rgba(79,140,255,.06)}
 
   <div id="tab-progress" style="display:none">
     <div class="prog-hero">
-      <div class="prog-hero-t">Progresso do acompanhamento J06</div>
+      <div class="prog-hero-t" data-i18n="pHeroTitle">Progresso do acompanhamento J06</div>
       <div class="prog-hero-s" id="progPeriod"></div>
       <div class="prog-ring-wrap">
         <div class="prog-ring" id="progRing"></div>
-        <div class="prog-ring-lbl"><b id="progPct">0%</b><span>concluído hoje</span><em id="progPctFrom"></em></div>
+        <div class="prog-ring-lbl"><b id="progPct">0%</b><span id="progPctLbl" data-i18n="pCompleted">concluído hoje</span><em id="progPctFrom"></em></div>
       </div>
     </div>
     <div class="cmp-grid" id="progCards"></div>
     <div class="card" style="margin-bottom:20px">
-      <h3>O que aconteceu no período (Inicial → hoje)</h3>
+      <h3 id="progWhatTitle" data-i18n="whatHappened">O que aconteceu no período (Inicial → hoje)</h3>
       <div class="hl-strip" id="progHighlights"></div>
-      <div class="flow-cap">Movimentações de status — de onde saíram e para onde foram (apenas itens que mudaram):</div>
+      <div class="flow-cap" data-i18n="movCaption">Movimentações de status — de onde saíram e para onde foram (apenas itens que mudaram):</div>
       <div class="flowlist" id="progFlow"></div>
     </div>
-    <div class="grid2">
-      <div class="card"><h3>Distribuição por status — Antes × Hoje</h3><div class="chart-box"><canvas id="chCompare"></canvas></div></div>
-      <div class="card"><h3>Evolução ao longo do tempo</h3><div class="chart-box"><canvas id="chEvo"></canvas></div></div>
+    <div class="card" style="margin-bottom:20px">
+      <h3 data-i18n="movCardsTitle">Movimentações por status de origem (resumo em cartões)</h3>
+      <div class="mv-grid" id="progMoveCards"></div>
     </div>
-    <div class="card"><h3>Resumo da evolução</h3><div style="overflow-x:auto"><table id="progTable"></table></div></div>
+    <div class="grid2">
+      <div class="card"><h3 data-i18n="compareTitle">Distribuição por status — Antes × Hoje</h3><div class="chart-box"><canvas id="chCompare"></canvas></div></div>
+      <div class="card"><h3 data-i18n="evoTitle">Evolução ao longo do tempo</h3><div class="chart-box"><canvas id="chEvo"></canvas></div></div>
+    </div>
+    <div class="card"><h3 data-i18n="summaryTitle">Resumo da evolução</h3><div style="overflow-x:auto"><table id="progTable"></table></div></div>
   </div>
 
-  <div class="foot">Interactive dashboard — filters and grouping update live. Blocking items are highlighted in red.<br>Status Atual = GTO List of Items (fonte primária) · Status Anterior = baseline fixo · Clique no <b>nº do item</b> para ver o fluxograma de status · Última atualização: __LAST_UPDATED__</div>
+  <div class="foot" id="footText"></div>
 </div>
 <div class="modal-bk" id="modal">
   <div class="modal">
@@ -288,6 +315,76 @@ tr:hover td{background:rgba(79,140,255,.06)}
 <script>
 const DATA = __DATA_JSON__;
 const PROGRESS = __PROGRESS_JSON__;
+const LAST_UPD = "__LAST_UPDATED__", SRC_LABEL = "__SOURCE_LABEL__";
+
+// ---------------- i18n (PT / EN) ----------------
+const I18N={
+ pt:{
+  tabDash:'📊 Painel', tabProg:'📈 Progresso',
+  sub:'Análise consolidada de status e responsáveis · SBR4 · {n} itens (ActualJx = J06) · Fonte: {src}',
+  updated:'Última atualização:',
+  kTotal:'Total J06', kOpen:'Pendências abertas', kBlocking:'Bloqueantes', kWaiting:'Aguardando prova', kB05:'Aguardando B05', kValidated:'Validados (encerrados)',
+  byStatus:'Por status (todos os itens)', byResp:'Por responsável (pendências abertas)',
+  searchPh:'Buscar item, descrição, análise...', showClosed:'Mostrar encerrados (Validated / Not Blocking)', onlyChanged:'Somente alterados', hlChanged:'◆ Ressaltar alterados', reset:'Limpar',
+  groupBy:'Agrupar por:', gResp:'Responsável', gStatus:'Status', gCat:'Categoria (B05)', gNone:'Nenhum (lista)', view:'Visão:', vList:'Lista', vBoard:'Quadro',
+  fStatus:'Status', fResp:'Responsável', fCat:'Categoria', all:'Todos', selectAll:'Selecionar tudo', clear:'Limpar', selected:'selecionado(s)',
+  hItem:'Item', hOjx:'OrigJx', hAjx:'AtualJx', hDesc:'Descrição', hCert:'Certificado / Evidência', hPrev:'Status Anterior', hNow:'Status Atual', hAnalysis:'Análise (GTO)', hResp:'Responsável',
+  novoItem:'— (novo item) —', alterado:'alterado', pending:'— pendente —', toAssign:'(a definir)', ofItems:'de {t} itens',
+  filterByStatus:'Filtrar por status', showAllStatuses:'Mostrar todos os status', blk:'blq', itemsN:'item(ns)', blockingN:'bloqueante(s)',
+  seeFlow:'Ver fluxograma de status', mResp:'Responsável', mCat:'Categoria', mSteps:'{n} etapas de status (mais antiga → mais recente):', mNoChange:'Sem mudanças de status — estável desde o início.', mCurrent:'atual',
+  foot:'Painel interativo — filtros e agrupamento ao vivo. Bloqueantes destacados em vermelho.<br>Status Atual = GTO List of Items (fonte primária) · Status Anterior = baseline fixo · Clique no <b>nº do item</b> para ver o fluxograma · Última atualização: {upd}',
+  pHeroTitle:'Progresso do acompanhamento J06', pPeriod:'De "{a}" até "{b}" · {n} itens J06 · {k} fotografias registradas', pCompleted:'concluído hoje', pBefore:'antes: {p}%  ({s} pp)',
+  cClosed:'Itens encerrados', cOpen:'Pendências abertas', cBlocking:'Bloqueantes', cWaiting:'Aguardando prova', cValidated:'Validados pela ICN', cUnder:'Em análise',
+  before:'antes', better:'melhor', worse:'pior', equal:'igual',
+  whatHappened:'O que aconteceu no período (Inicial → hoje)', movCaption:'Movimentações de status — de onde saíram e para onde foram (apenas itens que mudaram):',
+  movCardsTitle:'Movimentações por status de origem (resumo em cartões)',
+  chClosed:'itens fechados no período', chClosedSub:'aberto → encerrado', chLeftWaiting:'saíram de “Waiting Proof”', chLeftWaitingSub:'aguardavam evidência', chBlocks:'bloqueios resolvidos', chBlocksSub:'deixaram de bloquear', chReg:'regressões', chRegSub:'reabertos ou novos bloqueios',
+  leftN:'{n} saíram →', left2:'saíram', noChangeMov:'Nenhuma mudança de status no período.',
+  compareTitle:'Distribuição por status — Antes × Hoje', evoTitle:'Evolução ao longo do tempo', evoValidated:'Validados', evoClosed:'Encerrados', evoOpen:'Pendências abertas', evoBlocking:'Bloqueantes', antesLbl:'Antes', hojeLbl:'Hoje',
+  summaryTitle:'Resumo da evolução', tSnap:'Fotografia', tClosed:'Encerrados', tOpen:'Abertas', tBlocking:'Bloqueantes', tWaiting:'Waiting Proof', tValidated:'Validados', tPct:'% Concluído', tBeforeTag:' (antes)', tTodayTag:' (hoje)'
+ },
+ en:{
+  tabDash:'📊 Dashboard', tabProg:'📈 Progress',
+  sub:'Consolidated status & responsibility tracking · SBR4 · {n} items (ActualJx = J06) · Source: {src}',
+  updated:'Last updated:',
+  kTotal:'Total J06', kOpen:'Open pendencies', kBlocking:'Blocking', kWaiting:'Waiting Proof', kB05:'Awaiting B05', kValidated:'Validated (closed)',
+  byStatus:'By Status (all items)', byResp:'By Responsible (open pendencies)',
+  searchPh:'Search item, description, analysis...', showClosed:'Show closed (Validated / Not Blocking)', onlyChanged:'Changed only', hlChanged:'◆ Highlight changed', reset:'Reset',
+  groupBy:'Group by:', gResp:'Responsible', gStatus:'Status', gCat:'Category (B05)', gNone:'None (flat)', view:'View:', vList:'List', vBoard:'Board',
+  fStatus:'Status', fResp:'Responsible', fCat:'Category', all:'All', selectAll:'Select all', clear:'Clear', selected:'selected',
+  hItem:'Item', hOjx:'OrigJx', hAjx:'ActJx', hDesc:'Description', hCert:'Certificate / Evidence', hPrev:'Previous Status', hNow:'Current Status', hAnalysis:'Analysis (GTO)', hResp:'Responsible',
+  novoItem:'— (new item) —', alterado:'changed', pending:'— pending —', toAssign:'(to assign)', ofItems:'of {t} items',
+  filterByStatus:'Filter by status', showAllStatuses:'Show all statuses', blk:'blk', itemsN:'item(s)', blockingN:'blocking',
+  seeFlow:'View status flowchart', mResp:'Responsible', mCat:'Category', mSteps:'{n} status steps (oldest → newest):', mNoChange:'No status changes — stable since the start.', mCurrent:'current',
+  foot:'Interactive dashboard — filters and grouping update live. Blocking items highlighted in red.<br>Current Status = GTO List of Items (primary source) · Previous Status = fixed baseline · Click the <b>item number</b> for the status flowchart · Last updated: {upd}',
+  pHeroTitle:'J06 tracking progress', pPeriod:'From "{a}" to "{b}" · {n} J06 items · {k} snapshots recorded', pCompleted:'completed today', pBefore:'before: {p}%  ({s} pp)',
+  cClosed:'Closed items', cOpen:'Open pendencies', cBlocking:'Blocking', cWaiting:'Waiting Proof', cValidated:'Validated by ICN', cUnder:'Under analysis',
+  before:'before', better:'better', worse:'worse', equal:'equal',
+  whatHappened:'What happened in the period (Initial → today)', movCaption:'Status movements — where items came from and went to (changed items only):',
+  movCardsTitle:'Movements by source status (card summary)',
+  chClosed:'items closed in the period', chClosedSub:'open → closed', chLeftWaiting:'left “Waiting Proof”', chLeftWaitingSub:'were awaiting evidence', chBlocks:'blocks resolved', chBlocksSub:'no longer blocking', chReg:'regressions', chRegSub:'reopened or newly blocking',
+  leftN:'{n} left →', left2:'left', noChangeMov:'No status change in the period.',
+  compareTitle:'Status distribution — Before × Today', evoTitle:'Evolution over time', evoValidated:'Validated', evoClosed:'Closed', evoOpen:'Open pendencies', evoBlocking:'Blocking', antesLbl:'Before', hojeLbl:'Today',
+  summaryTitle:'Evolution summary', tSnap:'Snapshot', tClosed:'Closed', tOpen:'Open', tBlocking:'Blocking', tWaiting:'Waiting Proof', tValidated:'Validated', tPct:'% Complete', tBeforeTag:' (before)', tTodayTag:' (today)'
+ }
+};
+let LANG='pt';
+const tr=k=>((I18N[LANG]&&I18N[LANG][k])||I18N.en[k]||k);
+function applyStaticLang(){
+  document.querySelectorAll('[data-i18n]').forEach(el=>{el.innerHTML=tr(el.dataset.i18n);});
+  document.querySelectorAll('[data-i18n-ph]').forEach(el=>{el.placeholder=tr(el.dataset.i18nPh);});
+  document.querySelector('header .sub').innerHTML=tr('sub').replace('{n}',DATA.length).replace('{src}',SRC_LABEL);
+  document.querySelector('.updbadge').innerHTML=tr('updated')+' <b>'+LAST_UPD+'</b>';
+  document.getElementById('footText').innerHTML=tr('foot').replace('{upd}',LAST_UPD);
+}
+function setLang(l){
+  LANG=l;
+  document.querySelectorAll('.langsw button').forEach(b=>b.classList.toggle('active',b.dataset.lang===l));
+  document.documentElement.lang=(l==='pt')?'pt-BR':'en';
+  applyStaticLang(); renderKpis(); buildFilters(); render();
+  progressRendered=false;
+  if(document.getElementById('tab-progress').style.display!=='none')renderProgress();
+}
 const STATUS_CLASS = {
   '1 - Validated by ICN':'b-green','5 - Waiting Proof':'b-yellow','3 - Blocking':'b-red',
   '4 - Under Analysis':'b-orange','4 - Under Analysis To Not Blocking':'b-orange',
@@ -302,7 +399,7 @@ const STATUS_COLOR = {
 };
 const isClosed = d => d.closed===true;
 const RESP_COLORS=['#4f8cff','#2fbf71','#e8b93b','#e5534b','#9b6dff','#3cc7c7','#e08a3c','#8bc34a','#7c89a8','#ff7fb0','#5fd0e0','#d98cff'];
-const fmtResp = r => (r && r.trim()) ? r : '(To be assigned)';
+const fmtResp = r => (r && r.trim()) ? r : tr('toAssign');
 
 // KPI
 const total=DATA.length;
@@ -310,19 +407,17 @@ const cnt=s=>DATA.filter(d=>d.status===s).length;
 const openItems=DATA.filter(d=>!isClosed(d));
 const blocking=cnt('3 - Blocking');
 const waiting=cnt('5 - Waiting Proof');
-const b05=cnt('8 - Awaiting full B05 completion');
+const b05=cnt('6 - Waiting B05');
 const validated=cnt('1 - Validated by ICN');
-const unassigned=openItems.filter(d=>!(d.resp&&d.resp.trim())).length;
-const kpis=[
-  ['blue',total,'Total J06'],
-  ['orange',openItems.length,'Open pendencies'],
-  ['red',blocking,'Blocking'],
-  ['yellow',waiting,'Waiting Proof'],
-  ['blue',b05,'Awaiting B05'],
-  ['green',validated,'Validated (closed)'],
-];
-document.getElementById('kpis').innerHTML=kpis.map(k=>
-  `<div class="kpi ${k[0]}"><div class="n">${k[1]}</div><div class="l">${k[2]}</div></div>`).join('');
+function renderKpis(){
+  const kpis=[
+    ['blue',total,tr('kTotal')],['orange',openItems.length,tr('kOpen')],
+    ['red',blocking,tr('kBlocking')],['yellow',waiting,tr('kWaiting')],
+    ['blue',b05,tr('kB05')],['green',validated,tr('kValidated')],
+  ];
+  document.getElementById('kpis').innerHTML=kpis.map(k=>
+    `<div class="kpi ${k[0]}"><div class="n">${k[1]}</div><div class="l">${k[2]}</div></div>`).join('');
+}
 
 // group helper
 function groupCount(key){const m={};DATA.forEach(d=>{let v=key==='resp'?fmtResp(d.resp):d[key];v=v||'—';m[v]=(m[v]||0)+1;});return m;}
@@ -352,9 +447,9 @@ const MS={};
 function makeMulti(id,key,values,label,withDot,counts){
   const box=document.getElementById(id);
   box.innerHTML=`<button class="ms-btn" type="button">`+
-      `<span class="lab">${label}</span><span class="val">All</span><span class="car">▾</span></button>`+
+      `<span class="lab">${label}</span><span class="val">${tr('all')}</span><span class="car">▾</span></button>`+
     `<div class="ms-menu"><div class="ms-head"><span>${label}</span>`+
-      `<span><a class="sa">Select all</a><a class="cl">Clear</a></span></div><div class="ms-list">`+
+      `<span><a class="sa">${tr('selectAll')}</a><a class="cl">${tr('clear')}</a></span></div><div class="ms-list">`+
       values.map(v=>{
         const dot=withDot?`<span class="dot" style="background:${STATUS_COLOR[v]||'#7c89a8'}"></span>`:'';
         return `<label class="ms-opt"><input type="checkbox" value="${esc(v)}">${dot}<span class="nm">${esc(v)}</span><span class="cnt">${counts[v]}</span></label>`;
@@ -362,7 +457,7 @@ function makeMulti(id,key,values,label,withDot,counts){
   const btn=box.querySelector('.ms-btn'), val=box.querySelector('.val');
   function sync(){const set=F[key];set.clear();
     box.querySelectorAll('.ms-list input:checked').forEach(c=>set.add(c.value));
-    val.textContent=set.size?set.size+' selected':'All';
+    val.textContent=set.size?set.size+' '+tr('selected'):tr('all');
     val.style.color=set.size?'var(--accent)':'';render();}
   btn.onclick=e=>{e.stopPropagation();
     document.querySelectorAll('.ms').forEach(m=>{if(m!==box)m.classList.remove('open');});
@@ -371,17 +466,19 @@ function makeMulti(id,key,values,label,withDot,counts){
   box.querySelectorAll('.ms-list input').forEach(cb=>cb.addEventListener('change',sync));
   box.querySelector('.sa').onclick=()=>{box.querySelectorAll('.ms-list input').forEach(c=>c.checked=true);sync();};
   box.querySelector('.cl').onclick=()=>{box.querySelectorAll('.ms-list input').forEach(c=>c.checked=false);sync();};
-  MS[key]=()=>{box.querySelectorAll('.ms-list input').forEach(c=>c.checked=false);val.textContent='All';val.style.color='';F[key].clear();};
+  MS[key]=()=>{box.querySelectorAll('.ms-list input').forEach(c=>c.checked=false);val.textContent=tr('all');val.style.color='';F[key].clear();};
   MSsync[key]=()=>{box.querySelectorAll('.ms-list input').forEach(c=>c.checked=F[key].has(c.value));
-    val.textContent=F[key].size?F[key].size+' selected':'All';val.style.color=F[key].size?'var(--accent)':'';};
+    val.textContent=F[key].size?F[key].size+' '+tr('selected'):tr('all');val.style.color=F[key].size?'var(--accent)':'';};
 }
 const MSsync={};
-const stCounts={};DATA.forEach(d=>stCounts[d.status]=(stCounts[d.status]||0)+1);
-const rpCounts={};DATA.forEach(d=>{const v=fmtResp(d.resp);rpCounts[v]=(rpCounts[v]||0)+1;});
-const ctCounts={};DATA.forEach(d=>{const v=d.category;ctCounts[v]=(ctCounts[v]||0)+1;});
-makeMulti('fStatus','status',Object.keys(stCounts).sort(),'Status',true,stCounts);
-makeMulti('fResp','resp',Object.keys(rpCounts).sort(),'Responsible',false,rpCounts);
-makeMulti('fCat','category',Object.keys(ctCounts).sort(),'Category',false,ctCounts);
+function buildFilters(){
+  const stCounts={};DATA.forEach(d=>stCounts[d.status]=(stCounts[d.status]||0)+1);
+  const rpCounts={};DATA.forEach(d=>{const v=fmtResp(d.resp);rpCounts[v]=(rpCounts[v]||0)+1;});
+  const ctCounts={};DATA.forEach(d=>{const v=d.category;ctCounts[v]=(ctCounts[v]||0)+1;});
+  makeMulti('fStatus','status',Object.keys(stCounts).sort(),tr('fStatus'),true,stCounts);
+  makeMulti('fResp','resp',Object.keys(rpCounts).sort(),tr('fResp'),false,rpCounts);
+  makeMulti('fCat','category',Object.keys(ctCounts).sort(),tr('fCat'),false,ctCounts);
+}
 document.addEventListener('click',()=>document.querySelectorAll('.ms').forEach(m=>m.classList.remove('open')));
 
 let groupBy='resp', viewMode='list';
@@ -425,23 +522,23 @@ function filtered(){
 }
 function badge(s){return `<span class="badge ${STATUS_CLASS[s]||'b-slate'}">${s}</span>`;}
 function statusPrevCell(d){
-  if(d.status_prev==null||d.status_prev==='') return '<span class=pending>— (novo item) —</span>';
+  if(d.status_prev==null||d.status_prev==='') return `<span class=pending>${tr('novoItem')}</span>`;
   return `<span class="badge ${STATUS_CLASS[d.status_prev]||'b-slate'} stprev">${esc(d.status_prev)}</span>`;
 }
 function rowsHtml(items){
   return `<table><thead><tr>
-    <th>Item</th><th>OrigJx</th><th>ActJx</th><th>Description</th><th>Certificate / Evidence</th>
-    <th>Status Anterior</th><th>Status Atual</th><th>Analysis (GTO)</th><th>Responsible</th></tr></thead><tbody>`+
+    <th>${tr('hItem')}</th><th>${tr('hOjx')}</th><th>${tr('hAjx')}</th><th>${tr('hDesc')}</th><th>${tr('hCert')}</th>
+    <th>${tr('hPrev')}</th><th>${tr('hNow')}</th><th>${tr('hAnalysis')}</th><th>${tr('hResp')}</th></tr></thead><tbody>`+
     items.map(d=>`<tr class="${isClosed(d)?'row-closed':''} ${changed(d)?'changed-row':''}">
-      <td class="item" data-flow="${d.item}" title="Ver fluxograma de status">${d.item}${d.category==='B05'?'<span class="b05tag">B05</span>':''}</td>
+      <td class="item" data-flow="${d.item}" title="${tr('seeFlow')}">${d.item}${d.category==='B05'?'<span class="b05tag">B05</span>':''}</td>
       <td class="jx">${d.ojx||''}</td>
       <td class="jx">${d.ajx||''}</td>
       <td>${esc(d.desc)}</td>
       <td>${esc(d.cert)}</td>
       <td>${statusPrevCell(d)}</td>
-      <td>${badge(d.status)}${changed(d)?'<span class="chg">alterado</span>':''}</td>
-      <td>${d.analysis?esc(d.analysis):'<span class=pending>— pending —</span>'}</td>
-      <td>${d.resp?esc(d.resp):'<span class=pending>(to assign)</span>'}</td>
+      <td>${badge(d.status)}${changed(d)?`<span class="chg">${tr('alterado')}</span>`:''}</td>
+      <td>${d.analysis?esc(d.analysis):`<span class=pending>${tr('pending')}</span>`}</td>
+      <td>${d.resp?esc(d.resp):`<span class=pending>${tr('toAssign')}</span>`}</td>
     </tr>`).join('')+`</tbody></table>`;
 }
 function esc(s){return (s==null?'':(''+s)).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));}
@@ -451,27 +548,27 @@ function shortStatus(s){return s.replace(/^\d+\s*-\s*/,'');}
 function postit(d){
   const col=STATUS_COLOR[d.status]||'#7c89a8';
   return `<div class="postit ${isClosed(d)?'closed':''} ${changed(d)?'changed-row':''}" style="border-left-color:${col}">
-    <div class="p-top"><span class="p-item" data-flow="${d.item}" title="Ver fluxograma de status">#${d.item}</span>${d.category==='B05'?'<span class="b05tag">B05</span>':''}<span class="badge ${STATUS_CLASS[d.status]||'b-slate'}">${esc(shortStatus(d.status))}</span>${changed(d)?'<span class="chg">alterado</span>':''}</div>
+    <div class="p-top"><span class="p-item" data-flow="${d.item}" title="${tr('seeFlow')}">#${d.item}</span>${d.category==='B05'?'<span class="b05tag">B05</span>':''}<span class="badge ${STATUS_CLASS[d.status]||'b-slate'}">${esc(shortStatus(d.status))}</span>${changed(d)?`<span class="chg">${tr('alterado')}</span>`:''}</div>
     <div class="p-desc">${esc(d.desc)}</div>
     ${d.analysis?`<div class="p-ana">${esc(d.analysis)}</div>`:''}
-    <div style="margin-top:7px"><span class="badge b-slate" style="font-weight:600">👤 ${d.resp?esc(d.resp):'To assign'}</span></div>
+    <div style="margin-top:7px"><span class="badge b-slate" style="font-weight:600">👤 ${d.resp?esc(d.resp):tr('toAssign')}</span></div>
   </div>`;
 }
 function renderBoard(items){
   const key=(groupBy==='none')?'resp':groupBy;
   const stAll={};DATA.forEach(d=>stAll[d.status]=(stAll[d.status]||0)+1);
-  const side='<div class="board-side"><div class="bs-title">Filter by status</div>'+
+  const side=`<div class="board-side"><div class="bs-title">${tr('filterByStatus')}</div>`+
     Object.keys(stAll).sort().map(s=>`<div class="bs-item ${F.status.has(s)?'on':''}" data-s="${esc(s)}">`+
       `<span class="dot" style="background:${STATUS_COLOR[s]||'#7c89a8'}"></span>`+
       `<span class="bs-nm">${esc(shortStatus(s))}</span><span class="bs-c">${stAll[s]}</span></div>`).join('')+
-    '<div class="bs-clear" id="bsClear">Show all statuses</div></div>';
+    `<div class="bs-clear" id="bsClear">${tr('showAllStatuses')}</div></div>`;
   const groups={};
   items.forEach(d=>{const v=key==='resp'?fmtResp(d.resp):d[key];(groups[v]=groups[v]||[]).push(d);});
   const order=Object.keys(groups).sort((a,b)=>groups[b].length-groups[a].length);
   const cols='<div class="board">'+order.map(g=>{
     const blk=groups[g].filter(d=>d.status==='3 - Blocking').length;
     return `<div class="bcol"><div class="bcol-head"><span class="t">${esc(key==='status'?shortStatus(g):g)}</span>`+
-      `<span class="c">${groups[g].length}${blk?' · '+blk+' blk':''}</span></div>`+
+      `<span class="c">${groups[g].length}${blk?' · '+blk+' '+tr('blk'):''}</span></div>`+
       `<div class="bcol-body">`+groups[g].map(postit).join('')+`</div></div>`;
   }).join('')+'</div>';
   return '<div class="board-wrap">'+side+cols+'</div>';
@@ -479,7 +576,7 @@ function renderBoard(items){
 
 function render(){
   const items=filtered();
-  document.getElementById('count').textContent=items.length+' of '+DATA.length+' items';
+  document.getElementById('count').textContent=items.length+' '+tr('ofItems').replace('{t}',DATA.length);
   const box=document.getElementById('groups');
   box.classList.toggle('hl-mode',highlightChanged);
   if(viewMode==='board'){
@@ -501,7 +598,7 @@ function render(){
     return `<div class="section">
       <div class="section-head" onclick="this.parentNode.classList.toggle('collapsed')">
         <span class="title">${esc(g)}</span>
-        <span class="cnt">${groups[g].length} item(s)${blk?` · ${blk} blocking`:''}</span>
+        <span class="cnt">${groups[g].length} ${tr('itemsN')}${blk?` · ${blk} ${tr('blockingN')}`:''}</span>
         <span class="arrow">▾</span>
       </div>${rowsHtml(groups[g])}</div>`;}).join('');
 }
@@ -512,16 +609,16 @@ const modal=document.getElementById('modal');
 function flowBox(s){return `<div class="flow-box" style="background:${STATUS_COLOR[s]||'#7c89a8'}">${esc(shortStatus(s))}</div>`;}
 function openFlow(item){
   const d=BYITEM[item]; if(!d)return;
-  const h=(d.hist&&d.hist.length)?d.hist:[{t:'atual',s:d.status}];
+  const h=(d.hist&&d.hist.length)?d.hist:[{t:tr('mCurrent'),s:d.status}];
   document.getElementById('mItem').textContent='Item #'+d.item+(d.category==='B05'?'  ·  B05':'');
   document.getElementById('mCert').textContent=d.cert?('· '+d.cert):'';
   let body=`<div class="modal-desc">${esc(d.desc)}</div>`+
-           `<div class="modal-sub">Responsável: ${d.resp?esc(d.resp):'(a definir)'} · Categoria: ${esc(d.category)}</div>`;
+           `<div class="modal-sub">${tr('mResp')}: ${d.resp?esc(d.resp):tr('toAssign')} · ${tr('mCat')}: ${esc(d.category)}</div>`;
   if(h.length<=1){
-    body+=`<div class="flow-empty">Sem mudanças de status registradas — status estável desde o início.</div>`+
+    body+=`<div class="flow-empty">${tr('mNoChange')}</div>`+
           `<div class="flow"><div class="flow-node">${flowBox(h[0].s)}<div class="flow-t">${esc(h[0].t)}</div></div></div>`;
   }else{
-    body+=`<div class="flow-empty">${h.length} etapas de status registradas (mais antiga → mais recente):</div>`+
+    body+=`<div class="flow-empty">${tr('mSteps').replace('{n}',h.length)}</div>`+
       '<div class="flow">'+h.map((n,i)=>
         `<div class="flow-node">${flowBox(n.s)}<div class="flow-t">${esc(n.t)}</div></div>`+
         (i<h.length-1?'<div class="flow-arrow">→</div>':'')
@@ -555,62 +652,80 @@ const STATUS_RANK={'3 - Blocking':0,'7 - Missing Vacuum Test or Sign':1,'6 - Wai
   '5 - Waiting Proof':2,'4 - Under Analysis':3,'4 - Under Analysis To Not Blocking':4,
   '2 - Not Blocking':5,'1 - Validated by ICN':6};
 function renderMovements(){
-  const trans={}; const F={fechados:[],reabertos:[],saiuWaiting:[],blkResolv:[],novoBlk:[]};
+  const byFrom={}; const F={fechados:[],reabertos:[],saiuWaiting:[],blkResolv:[],novoBlk:[]};
   DATA.forEach(d=>{
     const f=d.status_prev,t=d.status;
-    if(f==null||f==='')return;
+    if(f==null||f===''||f===t)return;
     const wasC=CLOSED_JS.has(f),isC=CLOSED_JS.has(t);
     if(!wasC&&isC)F.fechados.push(d.item);
     if(wasC&&!isC)F.reabertos.push(d.item);
-    if(f==='5 - Waiting Proof'&&t!=='5 - Waiting Proof')F.saiuWaiting.push(d.item);
+    if(f==='5 - Waiting Proof')F.saiuWaiting.push(d.item);
     if(f==='3 - Blocking'&&t!=='3 - Blocking')F.blkResolv.push(d.item);
     if(f!=='3 - Blocking'&&t==='3 - Blocking')F.novoBlk.push(d.item);
-    if(f!==t){const k=f+'||'+t;(trans[k]=trans[k]||{from:f,to:t,items:[]}).items.push(d.item);}
+    const g=(byFrom[f]=byFrom[f]||{from:f,total:0,targets:{}}); g.total++;
+    (g.targets[t]=g.targets[t]||{to:t,items:[]}).items.push(d.item);
   });
   const chips=[
-    ['good',F.fechados.length,'itens fechados no período','open → encerrado'],
-    ['info',F.saiuWaiting.length,'saíram de “Waiting Proof”','aguardavam evidência'],
-    ['good',F.blkResolv.length,'bloqueios resolvidos','deixaram de bloquear'],
-    ['warn',F.reabertos.length+F.novoBlk.length,'regressões','reabertos ou novos bloqueios'],
+    ['good',F.fechados.length,tr('chClosed'),tr('chClosedSub')],
+    ['info',F.saiuWaiting.length,tr('chLeftWaiting'),tr('chLeftWaitingSub')],
+    ['good',F.blkResolv.length,tr('chBlocks'),tr('chBlocksSub')],
+    ['warn',F.reabertos.length+F.novoBlk.length,tr('chReg'),tr('chRegSub')],
   ];
   document.getElementById('progHighlights').innerHTML=chips.map(c=>
     `<div class="hl-chip ${c[0]}"><span class="hn">${c[1]}</span><span class="hl2">${c[2]}</span><span class="hl2" style="opacity:.7">${c[3]}</span></div>`).join('');
 
-  const rows=Object.values(trans).sort((a,b)=>b.items.length-a.items.length);
-  const maxN=rows.length?rows[0].items.length:1;
-  document.getElementById('progFlow').innerHTML=rows.map(r=>{
-    const imp=(STATUS_RANK[r.to]??0)>(STATUS_RANK[r.from]??0);
-    const col=STATUS_COLOR[r.to]||'#7c89a8';
-    return `<div class="flowrow ${imp?'imp':'reg'}" title="Itens: ${r.items.join(', ')}">
-      <span class="badge ${STATUS_CLASS[r.from]||'b-slate'}">${esc(shortStatus(r.from))}</span>
-      <span class="fa">→</span>
-      <span class="badge ${STATUS_CLASS[r.to]||'b-slate'}">${esc(shortStatus(r.to))}</span>
-      <div class="fbar"><span style="width:${Math.round(r.items.length/maxN*100)}%;background:${col}"></span></div>
-      <span class="fc">${r.items.length} item(s)</span>
-    </div>`;
-  }).join('')||'<div class="flow-empty">Nenhuma mudança de status no período.</div>';
+  const groups=Object.values(byFrom).sort((a,b)=>b.total-a.total);
+  const allT=groups.flatMap(g=>Object.values(g.targets).map(x=>x.items.length));
+  const maxN=allT.length?Math.max(...allT):1;
+  const targetsSorted=g=>Object.values(g.targets).sort((a,b)=>b.items.length-a.items.length);
+  // Fluxo agrupado pela origem
+  document.getElementById('progFlow').innerHTML=groups.map(g=>{
+    return `<div class="flowgroup">
+      <div class="fg-head"><span class="badge ${STATUS_CLASS[g.from]||'b-slate'}">${esc(shortStatus(g.from))}</span>
+        <span class="fg-tot">${tr('leftN').replace('{n}',g.total)}</span></div>
+      <div class="fg-targets">`+targetsSorted(g).map(x=>{
+        const imp=(STATUS_RANK[x.to]??0)>(STATUS_RANK[g.from]??0);
+        const col=STATUS_COLOR[x.to]||'#7c89a8';
+        return `<div class="flowrow ${imp?'imp':'reg'}" title="${x.items.join(', ')}">
+          <span class="fa">→</span>
+          <span class="badge ${STATUS_CLASS[x.to]||'b-slate'}">${esc(shortStatus(x.to))}</span>
+          <div class="fbar"><span style="width:${Math.round(x.items.length/maxN*100)}%;background:${col}"></span></div>
+          <span class="fc">${x.items.length}</span></div>`;
+      }).join('')+`</div></div>`;
+  }).join('')||`<div class="flow-empty">${tr('noChangeMov')}</div>`;
+  // Mesma informação em cartões e números
+  document.getElementById('progMoveCards').innerHTML=groups.map(g=>{
+    return `<div class="mv-card">
+      <div class="mv-from"><span class="badge ${STATUS_CLASS[g.from]||'b-slate'}">${esc(shortStatus(g.from))}</span></div>
+      <div class="mv-tot"><b>${g.total}</b><span>${tr('left2')}</span></div>
+      <div class="mv-brk">`+targetsSorted(g).map(x=>{
+        const imp=(STATUS_RANK[x.to]??0)>(STATUS_RANK[g.from]??0);
+        return `<div class="mv-line"><span class="mv-ar ${imp?'imp':'reg'}">→</span><span class="badge ${STATUS_CLASS[x.to]||'b-slate'}">${esc(shortStatus(x.to))}</span><b>${x.items.length}</b></div>`;
+      }).join('')+`</div></div>`;
+  }).join('');
 }
+let chCompareInst=null, chEvoInst=null;
 function renderProgress(){
   if(progressRendered)return; progressRendered=true;
   const S=PROGRESS.snaps, A=S[0], B=S[S.length-1];
   document.getElementById('progPeriod').textContent=
-    `De "${A.short}" até "${B.short}" · ${B.total} itens J06 · ${S.length} fotografias registradas`;
+    tr('pPeriod').replace('{a}',A.short).replace('{b}',B.short).replace('{n}',B.total).replace('{k}',S.length);
   const pct=Math.round(B.pct*100), pctA=Math.round(A.pct*100), dpp=pct-pctA;
   document.getElementById('progRing').style.background=`conic-gradient(var(--green) ${pct*3.6}deg, var(--line) 0)`;
   document.getElementById('progPct').textContent=pct+'%';
-  document.getElementById('progPctFrom').textContent=`antes: ${pctA}%  (${dpp>=0?'▲ +':'▼ '}${dpp} pp)`;
+  document.getElementById('progPctFrom').textContent=tr('pBefore').replace('{p}',pctA).replace('{s}',(dpp>=0?'▲ +':'▼ ')+dpp);
 
-  const cards=[['Itens encerrados','closed',true],['Pendências abertas','open',false],
-    ['Bloqueantes','blocking',false],['Aguardando prova','waiting',false],
-    ['Validados pela ICN','validated',true],['Em análise','under',false]];
+  const cards=[[tr('cClosed'),'closed',true],[tr('cOpen'),'open',false],
+    [tr('cBlocking'),'blocking',false],[tr('cWaiting'),'waiting',false],
+    [tr('cValidated'),'validated',true],[tr('cUnder'),'under',false]];
   document.getElementById('progCards').innerHTML=cards.map(([label,key,upGood])=>{
     const was=A[key], now=B[key], d=now-was;
-    let cls='flat',word='igual';
-    if(d!==0){const improved=(d>0)===upGood;cls=improved?'up':'down';word=improved?'melhor':'pior';}
+    let cls='flat',word=tr('equal');
+    if(d!==0){const improved=(d>0)===upGood;cls=improved?'up':'down';word=improved?tr('better'):tr('worse');}
     const arrow=d>0?'▲':(d<0?'▼':'—');
     return `<div class="cmp">
       <div class="cl">${label}</div>
-      <div class="row"><span class="now">${now}</span><span class="was">antes <s>${was}</s></span></div>
+      <div class="row"><span class="now">${now}</span><span class="was">${tr('before')} <s>${was}</s></span></div>
       <div class="delta ${cls}">${arrow} ${d>0?'+':''}${d} · ${word}</div>
       <div class="spark" style="background:${CARD_COLOR[key]}"></div>
     </div>`;
@@ -618,15 +733,14 @@ function renderProgress(){
 
   renderMovements();
 
-  // Tabela resumo por fotografia
-  const cols=[['Fotografia','short'],['Encerrados','closed'],['Abertas','open'],
-    ['Bloqueantes','blocking'],['Waiting Proof','waiting'],['Validados','validated'],['% Concluído','pct']];
+  const cols=[[tr('tSnap'),'short'],[tr('tClosed'),'closed'],[tr('tOpen'),'open'],
+    [tr('tBlocking'),'blocking'],[tr('tWaiting'),'waiting'],[tr('tValidated'),'validated'],[tr('tPct'),'pct']];
   let th='<thead><tr>'+cols.map(c=>`<th>${c[0]}</th>`).join('')+'</tr></thead>';
   let tb='<tbody>'+S.map((s,i)=>{
     const hl=(i===0||i===S.length-1)?' class="hl"':'';
     return '<tr>'+cols.map(c=>{
       let v=s[c[1]]; if(c[1]==='pct')v=Math.round(v*100)+'%';
-      const tag=(i===0)?' (antes)':(i===S.length-1?' (hoje)':'');
+      const tag=(i===0)?tr('tBeforeTag'):(i===S.length-1?tr('tTodayTag'):'');
       return `<td${hl}>${c[1]==='short'?v+tag:v}</td>`;
     }).join('')+'</tr>';
   }).join('')+'</tbody>';
@@ -634,25 +748,26 @@ function renderProgress(){
 
   if(typeof Chart==='undefined')return;
   try{
-    // Distribuição por status: Antes × Hoje
+    if(chCompareInst)chCompareInst.destroy();
+    if(chEvoInst)chEvoInst.destroy();
     const labels=STATUS_ORDER.filter(s=>(A.dist[s]||B.dist[s]));
-    new Chart(document.getElementById('chCompare'),{type:'bar',
+    chCompareInst=new Chart(document.getElementById('chCompare'),{type:'bar',
       data:{labels:labels.map(shortStatus),datasets:[
-        {label:'Antes ('+A.short+')',data:labels.map(s=>A.dist[s]||0),backgroundColor:'#7c89a8',borderRadius:4},
-        {label:'Hoje ('+B.short+')',data:labels.map(s=>B.dist[s]||0),backgroundColor:'#4f8cff',borderRadius:4}]},
+        {label:tr('antesLbl')+' ('+A.short+')',data:labels.map(s=>A.dist[s]||0),backgroundColor:'#7c89a8',borderRadius:4},
+        {label:tr('hojeLbl')+' ('+B.short+')',data:labels.map(s=>B.dist[s]||0),backgroundColor:'#4f8cff',borderRadius:4}]},
       options:{indexAxis:'y',plugins:{legend:{labels:{color:'#93a4c9',font:{size:11}}}},
         scales:{x:{ticks:{color:'#93a4c9'},grid:{color:'#2a3a5c'}},y:{ticks:{color:'#93a4c9',font:{size:11}},grid:{display:false}}}}});
-    // Evolução ao longo do tempo
     const mk=(lbl,key,col)=>({label:lbl,data:S.map(s=>s[key]),borderColor:col,backgroundColor:col,tension:.3,fill:false,pointRadius:4});
-    new Chart(document.getElementById('chEvo'),{type:'line',
+    chEvoInst=new Chart(document.getElementById('chEvo'),{type:'line',
       data:{labels:S.map(s=>s.short),datasets:[
-        mk('Validados','validated','#2fbf71'),mk('Encerrados','closed','#4f8cff'),
-        mk('Pendências abertas','open','#e08a3c'),mk('Bloqueantes','blocking','#e5534b')]},
+        mk(tr('evoValidated'),'validated','#2fbf71'),mk(tr('evoClosed'),'closed','#4f8cff'),
+        mk(tr('evoOpen'),'open','#e08a3c'),mk(tr('evoBlocking'),'blocking','#e5534b')]},
       options:{plugins:{legend:{labels:{color:'#93a4c9',font:{size:11}}}},
         scales:{x:{ticks:{color:'#93a4c9'},grid:{color:'#2a3a5c'}},y:{ticks:{color:'#93a4c9'},grid:{color:'#2a3a5c'},beginAtZero:true}}}});
   }catch(e){console.warn('Progress charts skipped:',e);}
 }
 
-render();
+document.querySelectorAll('.langsw button').forEach(b=>b.onclick=()=>setLang(b.dataset.lang));
+setLang('pt');
 </script>
 </body></html>

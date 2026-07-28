@@ -50,6 +50,20 @@ h1{margin:0;font-size:20px;font-weight:700}
 .cmp .delta.down{background:rgba(229,83,75,.16);color:#ff8078}
 .cmp .delta.flat{background:rgba(124,137,168,.16);color:#aeb9d4}
 .cmp .spark{position:absolute;right:0;bottom:0;left:0;height:4px}
+/* "O que aconteceu" — destaques + fluxo de → para */
+.hl-strip{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-bottom:18px}
+.hl-chip{background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:14px 16px;display:flex;flex-direction:column;gap:2px}
+.hl-chip .hn{font-size:26px;font-weight:800;line-height:1}
+.hl-chip .hl2{color:var(--muted);font-size:12px}
+.hl-chip.good .hn{color:var(--green)} .hl-chip.warn .hn{color:var(--red)} .hl-chip.info .hn{color:var(--accent)}
+.flowlist{display:flex;flex-direction:column;gap:8px}
+.flowrow{display:flex;align-items:center;gap:10px;padding:8px 10px;border:1px solid var(--line);border-radius:10px;background:var(--panel2)}
+.flowrow .fa{font-size:16px}
+.flowrow.imp .fa{color:var(--green)} .flowrow.reg .fa{color:var(--red)}
+.flowrow .fc{margin-left:2px;color:var(--muted);font-size:12px;white-space:nowrap}
+.flowrow .fbar{flex:1;height:8px;border-radius:6px;background:rgba(255,255,255,.06);overflow:hidden;min-width:60px}
+.flowrow .fbar>span{display:block;height:100%;border-radius:6px}
+.flow-cap{color:var(--muted);font-size:12px;margin:2px 0 12px}
 #progTable{width:100%;border-collapse:collapse;font-size:12.5px}
 #progTable th,#progTable td{padding:9px 12px;text-align:left;border-top:1px solid var(--line);white-space:nowrap}
 #progTable th{color:var(--muted);font-weight:600}
@@ -247,6 +261,12 @@ tr:hover td{background:rgba(79,140,255,.06)}
       </div>
     </div>
     <div class="cmp-grid" id="progCards"></div>
+    <div class="card" style="margin-bottom:20px">
+      <h3>O que aconteceu no período (Inicial → hoje)</h3>
+      <div class="hl-strip" id="progHighlights"></div>
+      <div class="flow-cap">Movimentações de status — de onde saíram e para onde foram (apenas itens que mudaram):</div>
+      <div class="flowlist" id="progFlow"></div>
+    </div>
     <div class="grid2">
       <div class="card"><h3>Distribuição por status — Antes × Hoje</h3><div class="chart-box"><canvas id="chCompare"></canvas></div></div>
       <div class="card"><h3>Evolução ao longo do tempo</h3><div class="chart-box"><canvas id="chEvo"></canvas></div></div>
@@ -530,6 +550,46 @@ document.querySelectorAll('.tabs .tab').forEach(b=>b.onclick=()=>{
   document.getElementById('tab-progress').style.display=(t==='progress')?'':'none';
   if(t==='progress')renderProgress();
 });
+const CLOSED_JS=new Set(['1 - Validated by ICN','2 - Not Blocking']);
+const STATUS_RANK={'3 - Blocking':0,'7 - Missing Vacuum Test or Sign':1,'6 - Waiting B05':1,
+  '5 - Waiting Proof':2,'4 - Under Analysis':3,'4 - Under Analysis To Not Blocking':4,
+  '2 - Not Blocking':5,'1 - Validated by ICN':6};
+function renderMovements(){
+  const trans={}; const F={fechados:[],reabertos:[],saiuWaiting:[],blkResolv:[],novoBlk:[]};
+  DATA.forEach(d=>{
+    const f=d.status_prev,t=d.status;
+    if(f==null||f==='')return;
+    const wasC=CLOSED_JS.has(f),isC=CLOSED_JS.has(t);
+    if(!wasC&&isC)F.fechados.push(d.item);
+    if(wasC&&!isC)F.reabertos.push(d.item);
+    if(f==='5 - Waiting Proof'&&t!=='5 - Waiting Proof')F.saiuWaiting.push(d.item);
+    if(f==='3 - Blocking'&&t!=='3 - Blocking')F.blkResolv.push(d.item);
+    if(f!=='3 - Blocking'&&t==='3 - Blocking')F.novoBlk.push(d.item);
+    if(f!==t){const k=f+'||'+t;(trans[k]=trans[k]||{from:f,to:t,items:[]}).items.push(d.item);}
+  });
+  const chips=[
+    ['good',F.fechados.length,'itens fechados no período','open → encerrado'],
+    ['info',F.saiuWaiting.length,'saíram de “Waiting Proof”','aguardavam evidência'],
+    ['good',F.blkResolv.length,'bloqueios resolvidos','deixaram de bloquear'],
+    ['warn',F.reabertos.length+F.novoBlk.length,'regressões','reabertos ou novos bloqueios'],
+  ];
+  document.getElementById('progHighlights').innerHTML=chips.map(c=>
+    `<div class="hl-chip ${c[0]}"><span class="hn">${c[1]}</span><span class="hl2">${c[2]}</span><span class="hl2" style="opacity:.7">${c[3]}</span></div>`).join('');
+
+  const rows=Object.values(trans).sort((a,b)=>b.items.length-a.items.length);
+  const maxN=rows.length?rows[0].items.length:1;
+  document.getElementById('progFlow').innerHTML=rows.map(r=>{
+    const imp=(STATUS_RANK[r.to]??0)>(STATUS_RANK[r.from]??0);
+    const col=STATUS_COLOR[r.to]||'#7c89a8';
+    return `<div class="flowrow ${imp?'imp':'reg'}" title="Itens: ${r.items.join(', ')}">
+      <span class="badge ${STATUS_CLASS[r.from]||'b-slate'}">${esc(shortStatus(r.from))}</span>
+      <span class="fa">→</span>
+      <span class="badge ${STATUS_CLASS[r.to]||'b-slate'}">${esc(shortStatus(r.to))}</span>
+      <div class="fbar"><span style="width:${Math.round(r.items.length/maxN*100)}%;background:${col}"></span></div>
+      <span class="fc">${r.items.length} item(s)</span>
+    </div>`;
+  }).join('')||'<div class="flow-empty">Nenhuma mudança de status no período.</div>';
+}
 function renderProgress(){
   if(progressRendered)return; progressRendered=true;
   const S=PROGRESS.snaps, A=S[0], B=S[S.length-1];
@@ -555,6 +615,8 @@ function renderProgress(){
       <div class="spark" style="background:${CARD_COLOR[key]}"></div>
     </div>`;
   }).join('');
+
+  renderMovements();
 
   // Tabela resumo por fotografia
   const cols=[['Fotografia','short'],['Encerrados','closed'],['Abertas','open'],

@@ -97,8 +97,10 @@ Recursos do dashboard (tudo client-side, sem backend):
 - **Abas** (`.tabs`): **📊 Dashboard** (tabela/filtros/gráficos) e **📈 Progresso**.
 - **Aba Progresso** (`#tab-progress`, dados em `const PROGRESS = {...}` via
   `build_progress`): compara a **primeira fotografia (Inicial)** com a **atual** — anel de
-  % concluído, cartões Antes × Hoje com delta colorido (melhor/pior), gráfico de status
-  Antes×Hoje, gráfico de evolução no tempo e tabela-resumo por snapshot.
+  % concluído, cartões Antes × Hoje com delta colorido (melhor/pior), seção **"O que
+  aconteceu"** (destaques + fluxo *de → para* dos itens que mudaram, calculado no
+  cliente a partir de `status_prev`→`status` em `DATA`), gráfico de status Antes×Hoje,
+  gráfico de evolução no tempo e tabela-resumo por snapshot.
 - **Última atualização** no canto superior direito (`.updbadge`).
 - Gráficos usam **Chart.js via CDN**; o código está protegido por
   `if(typeof Chart!=='undefined'){...}` — se o CDN falhar (ex.: offline), o resto do

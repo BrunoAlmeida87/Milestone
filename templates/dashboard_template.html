@@ -663,7 +663,7 @@ const STATUS_RANK={'3 - Blocking':0,'7 - Missing Vacuum Test or Sign':1,'6 - Wai
 function renderMovements(){
   const byFrom={}; const F={fechados:[],reabertos:[],saiuWaiting:[],blkResolv:[],novoBlk:[]};
   DATA.forEach(d=>{
-    const f=d.status_prev,t=d.status;
+    const f=(d.status_ini!=null?d.status_ini:d.status_prev),t=d.status;
     if(f==null||f===''||f===t)return;
     const wasC=CLOSED_JS.has(f),isC=CLOSED_JS.has(t);
     if(!wasC&&isC)F.fechados.push(d.item);
@@ -745,7 +745,7 @@ function renderProgress(){
       <div class="cl">${label}</div>
       <div class="cl-sub">${sub}</div>
       <div class="row"><span class="now">${now}</span><span class="was">${wasLine}</span></div>
-      <div class="delta ${cls}">${arrow} ${d>0?'+':''}${d} · ${word}${showPrev?' '+tr('vsPrev'):''}</div>
+      <div class="delta ${cls}">${arrow} ${d>0?'+':''}${d} · ${word}</div>
       ${totHtml}
       ${peakHtml}
       <div class="spark" style="background:${CARD_COLOR[key]}"></div>

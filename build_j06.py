@@ -228,14 +228,23 @@ def build_progress(snapshots):
             "pct": round(closed / total, 4) if total else 0,
         }
 
+    # A aba Progresso comeca na 1a planilha GTO (ignora o baseline do repositorio,
+    # que e pre-historia). O baseline segue valendo para o Status Anterior da tabela.
+    prog = [s for s in snapshots if not s.get("baseline")] or snapshots
     snaps = []
-    for s in snapshots:
+    for s in prog:
         d = summarize(s["statuses"])
         d["short"] = s.get("short", "snapshot")
         d["label"] = s.get("label", d["short"])
         d["date"] = s.get("date")
         snaps.append(d)
     return {"snaps": snaps}
+
+
+def first_gto_statuses(snapshots):
+    """Status por item na 1a fotografia de GTO (o 'Inicial' do Progresso)."""
+    s = next((x for x in snapshots if not x.get("baseline")), snapshots[0])
+    return s["statuses"]
 
 
 def build_item_histories(snapshots):
@@ -253,7 +262,7 @@ def build_item_histories(snapshots):
 # --------------------------------------------------------------------------- #
 # Montagem dos registros finais
 # --------------------------------------------------------------------------- #
-def build_records(gto, baseline, histories, enrich):
+def build_records(gto, baseline, first_gto, histories, enrich):
     records = []
     for key, g in gto.items():
         e = enrich.get(key, {})
@@ -284,7 +293,8 @@ def build_records(gto, baseline, histories, enrich):
             "category": category,
             "desc": g["desc"],
             "cert": g["cert"],
-            "status_prev": baseline.get(key),   # Status Anterior (baseline fixo)
+            "status_prev": baseline.get(key),   # Status Anterior (baseline fixo — tabela)
+            "status_ini": first_gto.get(key),    # status na 1a GTO (Inicial do Progresso)
             "status": status,                    # Status Atual
             "analysis": analysis,
             "analysis_pt": analysis_pt,
@@ -484,7 +494,7 @@ def write_html(records, last_updated, source_label, progress):
     payload = [{
         "item": d["item"], "ojx": d["ojx"], "ajx": d["ajx"], "desc": d["desc"],
         "cert": d["cert"], "category": d["category"],
-        "status": d["status"], "status_prev": d["status_prev"],
+        "status": d["status"], "status_prev": d["status_prev"], "status_ini": d["status_ini"],
         "analysis": d["analysis"], "analysis_pt": d["analysis_pt"],
         "resp": d["resp"], "note": d["note"], "closed": d["closed"],
         "hist": d["hist"],
@@ -511,7 +521,7 @@ def main():
     histories = build_item_histories(snapshots)
     enrich = json.loads(ENRICH_JSON.read_text(encoding="utf-8"))
 
-    records = build_records(gto, baseline, histories, enrich)
+    records = build_records(gto, baseline, first_gto_statuses(snapshots), histories, enrich)
     progress = build_progress(snapshots)
     write_excel(records, last_updated, source_label)
     write_html(records, last_updated, source_label, progress)

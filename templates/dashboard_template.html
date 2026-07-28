@@ -40,6 +40,7 @@ h1{margin:0;font-size:20px;font-weight:700}
 .cmp-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-bottom:20px}
 .cmp{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px 20px;position:relative;overflow:hidden}
 .cmp .cl{color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.5px;font-weight:600}
+.cmp .cl-sub{color:var(--muted);font-size:10.5px;margin-top:3px;opacity:.75;line-height:1.3}
 .cmp .row{display:flex;align-items:baseline;gap:12px;margin-top:12px}
 .cmp .now{font-size:34px;font-weight:800;line-height:1}
 .cmp .was{color:var(--muted);font-size:13px}
@@ -336,6 +337,7 @@ const I18N={
   foot:'Painel interativo — filtros e agrupamento ao vivo. Bloqueantes destacados em vermelho.<br>Status Atual = GTO List of Items (fonte primária) · Status Anterior = baseline fixo · Clique no <b>nº do item</b> para ver o fluxograma · Última atualização: {upd}',
   pHeroTitle:'Progresso do acompanhamento J06', pPeriod:'De "{a}" até "{b}" · {n} itens J06 · {k} fotografias registradas', pCompleted:'concluído hoje', pBefore:'antes: {p}%  ({s} pp)',
   cClosed:'Itens encerrados', cOpen:'Pendências abertas', cBlocking:'Bloqueantes', cWaiting:'Aguardando prova', cValidated:'Validados pela ICN', cUnder:'Em análise',
+  cClosedSub:'Validados + Não bloqueantes (encerrados)', cOpenSub:'tudo que não está encerrado', cBlockingSub:'status “3 - Blocking” (⊂ abertas)', cWaitingSub:'status “5 - Waiting Proof” (⊂ abertas)', cValidatedSub:'status “1 - Validated” (⊂ encerrados)', cUnderSub:'status “4 - Under Analysis” (⊂ abertas)',
   before:'antes', better:'melhor', worse:'pior', equal:'igual',
   whatHappened:'O que aconteceu no período (Inicial → hoje)', movCaption:'Movimentações de status — de onde saíram e para onde foram (apenas itens que mudaram):',
   movCardsTitle:'Movimentações por status de origem (resumo em cartões)',
@@ -360,6 +362,7 @@ const I18N={
   foot:'Interactive dashboard — filters and grouping update live. Blocking items highlighted in red.<br>Current Status = GTO List of Items (primary source) · Previous Status = fixed baseline · Click the <b>item number</b> for the status flowchart · Last updated: {upd}',
   pHeroTitle:'J06 tracking progress', pPeriod:'From "{a}" to "{b}" · {n} J06 items · {k} snapshots recorded', pCompleted:'completed today', pBefore:'before: {p}%  ({s} pp)',
   cClosed:'Closed items', cOpen:'Open pendencies', cBlocking:'Blocking', cWaiting:'Waiting Proof', cValidated:'Validated by ICN', cUnder:'Under analysis',
+  cClosedSub:'Validated + Not Blocking (closed)', cOpenSub:'everything not closed', cBlockingSub:'status “3 - Blocking” (⊂ open)', cWaitingSub:'status “5 - Waiting Proof” (⊂ open)', cValidatedSub:'status “1 - Validated” (⊂ closed)', cUnderSub:'status “4 - Under Analysis” (⊂ open)',
   before:'before', better:'better', worse:'worse', equal:'equal',
   whatHappened:'What happened in the period (Initial → today)', movCaption:'Status movements — where items came from and went to (changed items only):',
   movCardsTitle:'Movements by source status (card summary)',
@@ -716,16 +719,17 @@ function renderProgress(){
   document.getElementById('progPct').textContent=pct+'%';
   document.getElementById('progPctFrom').textContent=tr('pBefore').replace('{p}',pctA).replace('{s}',(dpp>=0?'▲ +':'▼ ')+dpp);
 
-  const cards=[[tr('cClosed'),'closed',true],[tr('cOpen'),'open',false],
-    [tr('cBlocking'),'blocking',false],[tr('cWaiting'),'waiting',false],
-    [tr('cValidated'),'validated',true],[tr('cUnder'),'under',false]];
-  document.getElementById('progCards').innerHTML=cards.map(([label,key,upGood])=>{
+  const cards=[[tr('cClosed'),'closed',true,tr('cClosedSub')],[tr('cOpen'),'open',false,tr('cOpenSub')],
+    [tr('cBlocking'),'blocking',false,tr('cBlockingSub')],[tr('cWaiting'),'waiting',false,tr('cWaitingSub')],
+    [tr('cValidated'),'validated',true,tr('cValidatedSub')],[tr('cUnder'),'under',false,tr('cUnderSub')]];
+  document.getElementById('progCards').innerHTML=cards.map(([label,key,upGood,sub])=>{
     const was=A[key], now=B[key], d=now-was;
     let cls='flat',word=tr('equal');
     if(d!==0){const improved=(d>0)===upGood;cls=improved?'up':'down';word=improved?tr('better'):tr('worse');}
     const arrow=d>0?'▲':(d<0?'▼':'—');
     return `<div class="cmp">
       <div class="cl">${label}</div>
+      <div class="cl-sub">${sub}</div>
       <div class="row"><span class="now">${now}</span><span class="was">${tr('before')} <s>${was}</s></span></div>
       <div class="delta ${cls}">${arrow} ${d>0?'+':''}${d} · ${word}</div>
       <div class="spark" style="background:${CARD_COLOR[key]}"></div>

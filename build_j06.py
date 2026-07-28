@@ -505,8 +505,6 @@ def main():
     generated, gen_short = norm_generated(meta.get("generated", ""))
     last_updated = generated
     source_label = "GTO List of Items"
-    if meta.get("generated"):
-        source_label += f" · gerado em {generated}"
 
     current = {k: v["status"] for k, v in gto.items()}
     baseline, snapshots = sync_history(current, source_label, gen_short)

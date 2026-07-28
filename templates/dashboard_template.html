@@ -341,7 +341,7 @@ const I18N={
   cClosed:'Itens encerrados', cOpen:'Pendências abertas', cBlocking:'Bloqueantes', cWaiting:'Aguardando prova', cValidated:'Validados pela ICN', cUnder:'Em análise',
   cClosedSub:'Validados + Não bloqueantes (encerrados)', cOpenSub:'tudo que não está encerrado', cBlockingSub:'status “3 - Blocking” (⊂ abertas)', cWaitingSub:'status “5 - Waiting Proof” (⊂ abertas)', cValidatedSub:'status “1 - Validated” (⊂ encerrados)', cUnderSub:'status “4 - Under Analysis” (⊂ abertas)',
   cB05:'Aguardando B05', cB05Sub:'status “6 - Waiting B05” (⊂ abertas)', peakLbl:'pico no período:',
-  before:'antes', better:'melhor', worse:'pior', equal:'igual',
+  before:'antes', initialLbl:'inicial', prevLbl:'anterior', better:'melhor', worse:'pior', equal:'igual',
   whatHappened:'O que aconteceu no período (Inicial → hoje)', movCaption:'Movimentações de status — de onde saíram e para onde foram (apenas itens que mudaram):',
   movCardsTitle:'Movimentações por status de origem (resumo em cartões)',
   chClosed:'itens fechados no período', chClosedSub:'aberto → encerrado', chLeftWaiting:'saíram de “Waiting Proof”', chLeftWaitingSub:'aguardavam evidência', chBlocks:'bloqueios resolvidos', chBlocksSub:'deixaram de bloquear', chReg:'regressões', chRegSub:'reabertos ou novos bloqueios',
@@ -367,7 +367,7 @@ const I18N={
   cClosed:'Closed items', cOpen:'Open pendencies', cBlocking:'Blocking', cWaiting:'Waiting Proof', cValidated:'Validated by ICN', cUnder:'Under analysis',
   cClosedSub:'Validated + Not Blocking (closed)', cOpenSub:'everything not closed', cBlockingSub:'status “3 - Blocking” (⊂ open)', cWaitingSub:'status “5 - Waiting Proof” (⊂ open)', cValidatedSub:'status “1 - Validated” (⊂ closed)', cUnderSub:'status “4 - Under Analysis” (⊂ open)',
   cB05:'Awaiting B05', cB05Sub:'status “6 - Waiting B05” (⊂ open)', peakLbl:'peak in period:',
-  before:'before', better:'better', worse:'worse', equal:'equal',
+  before:'before', initialLbl:'initial', prevLbl:'previous', better:'better', worse:'worse', equal:'equal',
   whatHappened:'What happened in the period (Initial → today)', movCaption:'Status movements — where items came from and went to (changed items only):',
   movCardsTitle:'Movements by source status (card summary)',
   chClosed:'items closed in the period', chClosedSub:'open → closed', chLeftWaiting:'left “Waiting Proof”', chLeftWaitingSub:'were awaiting evidence', chBlocks:'blocks resolved', chBlocksSub:'no longer blocking', chReg:'regressions', chRegSub:'reopened or newly blocking',
@@ -727,6 +727,8 @@ function renderProgress(){
     [tr('cBlocking'),'blocking',false,tr('cBlockingSub')],[tr('cWaiting'),'waiting',false,tr('cWaitingSub')],
     [tr('cB05'),'b05',false,tr('cB05Sub')],[tr('cValidated'),'validated',true,tr('cValidatedSub')],
     [tr('cUnder'),'under',false,tr('cUnderSub')]];
+  const P=S[S.length-2]||A;               // fotografia anterior (penúltima)
+  const showPrev=S.length>=3;
   document.getElementById('progCards').innerHTML=cards.map(([label,key,upGood,sub])=>{
     const was=A[key], now=B[key], d=now-was;
     let cls='flat',word=tr('equal');
@@ -734,10 +736,11 @@ function renderProgress(){
     const arrow=d>0?'▲':(d<0?'▼':'—');
     const peak=Math.max(...S.map(s=>s[key]));
     const peakHtml=(peak>Math.max(was,now))?`<div class="cl-peak">${tr('peakLbl')} <b>${peak}</b></div>`:'';
+    const wasLine=`${tr('initialLbl')} <s>${was}</s>`+(showPrev?` · ${tr('prevLbl')} <s>${P[key]}</s>`:'');
     return `<div class="cmp">
       <div class="cl">${label}</div>
       <div class="cl-sub">${sub}</div>
-      <div class="row"><span class="now">${now}</span><span class="was">${tr('before')} <s>${was}</s></span></div>
+      <div class="row"><span class="now">${now}</span><span class="was">${wasLine}</span></div>
       <div class="delta ${cls}">${arrow} ${d>0?'+':''}${d} · ${word}</div>
       ${peakHtml}
       <div class="spark" style="background:${CARD_COLOR[key]}"></div>

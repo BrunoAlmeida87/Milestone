@@ -18,6 +18,42 @@ header{padding:20px 28px;background:linear-gradient(135deg,#16213c,#0f1729);bord
 h1{margin:0;font-size:20px;font-weight:700}
 .sub{color:var(--muted);font-size:12px;margin-top:4px}
 .wrap{padding:20px 28px;max-width:1500px;margin:0 auto}
+/* Tabs */
+.tabs{display:flex;gap:8px;margin-bottom:20px;border-bottom:1px solid var(--line)}
+.tabs .tab{background:transparent;border:none;border-bottom:2px solid transparent;color:var(--muted);
+  padding:10px 18px;font-size:14px;font-weight:600;cursor:pointer;border-radius:8px 8px 0 0}
+.tabs .tab:hover{color:var(--txt)}
+.tabs .tab.active{color:var(--accent);border-bottom-color:var(--accent);background:var(--panel)}
+/* Progress tab */
+.prog-hero{display:flex;align-items:center;gap:26px;flex-wrap:wrap;background:linear-gradient(135deg,#16213c,#1c2a4a);
+  border:1px solid var(--line);border-radius:16px;padding:24px 28px;margin-bottom:20px}
+.prog-hero-t{font-size:22px;font-weight:800}
+.prog-hero-s{color:var(--muted);font-size:13px;margin-top:6px;flex:1;min-width:220px}
+.prog-ring-wrap{display:flex;align-items:center;gap:16px}
+.prog-ring{width:112px;height:112px;border-radius:50%;flex:0 0 auto;
+  display:flex;align-items:center;justify-content:center;position:relative}
+.prog-ring::after{content:"";position:absolute;inset:12px;background:var(--panel);border-radius:50%}
+.prog-ring-lbl{display:flex;flex-direction:column;line-height:1.2}
+.prog-ring-lbl b{font-size:28px;color:var(--green)}
+.prog-ring-lbl span{color:var(--muted);font-size:12px}
+.prog-ring-lbl em{color:var(--muted);font-size:11px;font-style:normal;margin-top:4px}
+.cmp-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-bottom:20px}
+.cmp{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px 20px;position:relative;overflow:hidden}
+.cmp .cl{color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.5px;font-weight:600}
+.cmp .row{display:flex;align-items:baseline;gap:12px;margin-top:12px}
+.cmp .now{font-size:34px;font-weight:800;line-height:1}
+.cmp .was{color:var(--muted);font-size:13px}
+.cmp .was s{opacity:.7}
+.cmp .delta{margin-top:12px;display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:700;
+  padding:4px 10px;border-radius:20px}
+.cmp .delta.up{background:rgba(47,191,113,.16);color:#5fe6a0}
+.cmp .delta.down{background:rgba(229,83,75,.16);color:#ff8078}
+.cmp .delta.flat{background:rgba(124,137,168,.16);color:#aeb9d4}
+.cmp .spark{position:absolute;right:0;bottom:0;left:0;height:4px}
+#progTable{width:100%;border-collapse:collapse;font-size:12.5px}
+#progTable th,#progTable td{padding:9px 12px;text-align:left;border-top:1px solid var(--line);white-space:nowrap}
+#progTable th{color:var(--muted);font-weight:600}
+#progTable td.hl{font-weight:700}
 .kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin-bottom:20px}
 .kpi{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px 18px}
 .kpi .n{font-size:30px;font-weight:800;line-height:1}
@@ -163,6 +199,11 @@ tr:hover td{background:rgba(79,140,255,.06)}
   <div class="sub">Consolidated analysis, status &amp; responsibility tracking · SBR4 · __ITEM_COUNT__ items (ActualJx = J06) · Fonte: __SOURCE_LABEL__</div>
 </header>
 <div class="wrap">
+  <div class="tabs">
+    <button class="tab active" data-tab="dashboard">📊 Dashboard</button>
+    <button class="tab" data-tab="progress">📈 Progresso</button>
+  </div>
+  <div id="tab-dashboard">
   <div class="kpis" id="kpis"></div>
   <div class="grid2">
     <div class="card"><h3>By Status (all items)</h3><div class="chart-box"><canvas id="chStatus"></canvas></div></div>
@@ -194,6 +235,25 @@ tr:hover td{background:rgba(79,140,255,.06)}
     </div>
     <div id="groups"></div>
   </div>
+  </div><!-- /tab-dashboard -->
+
+  <div id="tab-progress" style="display:none">
+    <div class="prog-hero">
+      <div class="prog-hero-t">Progresso do acompanhamento J06</div>
+      <div class="prog-hero-s" id="progPeriod"></div>
+      <div class="prog-ring-wrap">
+        <div class="prog-ring" id="progRing"></div>
+        <div class="prog-ring-lbl"><b id="progPct">0%</b><span>concluído hoje</span><em id="progPctFrom"></em></div>
+      </div>
+    </div>
+    <div class="cmp-grid" id="progCards"></div>
+    <div class="grid2">
+      <div class="card"><h3>Distribuição por status — Antes × Hoje</h3><div class="chart-box"><canvas id="chCompare"></canvas></div></div>
+      <div class="card"><h3>Evolução ao longo do tempo</h3><div class="chart-box"><canvas id="chEvo"></canvas></div></div>
+    </div>
+    <div class="card"><h3>Resumo da evolução</h3><div style="overflow-x:auto"><table id="progTable"></table></div></div>
+  </div>
+
   <div class="foot">Interactive dashboard — filters and grouping update live. Blocking items are highlighted in red.<br>Status Atual = GTO List of Items (fonte primária) · Status Anterior = baseline fixo · Clique no <b>nº do item</b> para ver o fluxograma de status · Última atualização: __LAST_UPDATED__</div>
 </div>
 <div class="modal-bk" id="modal">
@@ -207,6 +267,7 @@ tr:hover td{background:rgba(79,140,255,.06)}
 </div>
 <script>
 const DATA = __DATA_JSON__;
+const PROGRESS = __PROGRESS_JSON__;
 const STATUS_CLASS = {
   '1 - Validated by ICN':'b-green','5 - Waiting Proof':'b-yellow','3 - Blocking':'b-red',
   '4 - Under Analysis':'b-orange','4 - Under Analysis To Not Blocking':'b-orange',
@@ -455,6 +516,80 @@ modal.addEventListener('click',e=>{if(e.target===modal)closeFlow();});
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeFlow();});
 document.getElementById('groups').addEventListener('click',e=>{
   const el=e.target.closest('[data-flow]'); if(el)openFlow(+el.dataset.flow);});
+
+// ---- Aba de Progresso (antes × hoje) ----
+const STATUS_ORDER=['1 - Validated by ICN','2 - Not Blocking','3 - Blocking','4 - Under Analysis',
+  '4 - Under Analysis To Not Blocking','5 - Waiting Proof','6 - Waiting B05','7 - Missing Vacuum Test or Sign'];
+const CARD_COLOR={closed:'#2fbf71',open:'#e08a3c',blocking:'#e5534b',waiting:'#e8b93b',validated:'#2fbf71',under:'#e08a3c'};
+let progressRendered=false;
+document.querySelectorAll('.tabs .tab').forEach(b=>b.onclick=()=>{
+  document.querySelectorAll('.tabs .tab').forEach(x=>x.classList.remove('active'));
+  b.classList.add('active');
+  const t=b.dataset.tab;
+  document.getElementById('tab-dashboard').style.display=(t==='dashboard')?'':'none';
+  document.getElementById('tab-progress').style.display=(t==='progress')?'':'none';
+  if(t==='progress')renderProgress();
+});
+function renderProgress(){
+  if(progressRendered)return; progressRendered=true;
+  const S=PROGRESS.snaps, A=S[0], B=S[S.length-1];
+  document.getElementById('progPeriod').textContent=
+    `De "${A.short}" até "${B.short}" · ${B.total} itens J06 · ${S.length} fotografias registradas`;
+  const pct=Math.round(B.pct*100), pctA=Math.round(A.pct*100), dpp=pct-pctA;
+  document.getElementById('progRing').style.background=`conic-gradient(var(--green) ${pct*3.6}deg, var(--line) 0)`;
+  document.getElementById('progPct').textContent=pct+'%';
+  document.getElementById('progPctFrom').textContent=`antes: ${pctA}%  (${dpp>=0?'▲ +':'▼ '}${dpp} pp)`;
+
+  const cards=[['Itens encerrados','closed',true],['Pendências abertas','open',false],
+    ['Bloqueantes','blocking',false],['Aguardando prova','waiting',false],
+    ['Validados pela ICN','validated',true],['Em análise','under',false]];
+  document.getElementById('progCards').innerHTML=cards.map(([label,key,upGood])=>{
+    const was=A[key], now=B[key], d=now-was;
+    let cls='flat',word='igual';
+    if(d!==0){const improved=(d>0)===upGood;cls=improved?'up':'down';word=improved?'melhor':'pior';}
+    const arrow=d>0?'▲':(d<0?'▼':'—');
+    return `<div class="cmp">
+      <div class="cl">${label}</div>
+      <div class="row"><span class="now">${now}</span><span class="was">antes <s>${was}</s></span></div>
+      <div class="delta ${cls}">${arrow} ${d>0?'+':''}${d} · ${word}</div>
+      <div class="spark" style="background:${CARD_COLOR[key]}"></div>
+    </div>`;
+  }).join('');
+
+  // Tabela resumo por fotografia
+  const cols=[['Fotografia','short'],['Encerrados','closed'],['Abertas','open'],
+    ['Bloqueantes','blocking'],['Waiting Proof','waiting'],['Validados','validated'],['% Concluído','pct']];
+  let th='<thead><tr>'+cols.map(c=>`<th>${c[0]}</th>`).join('')+'</tr></thead>';
+  let tb='<tbody>'+S.map((s,i)=>{
+    const hl=(i===0||i===S.length-1)?' class="hl"':'';
+    return '<tr>'+cols.map(c=>{
+      let v=s[c[1]]; if(c[1]==='pct')v=Math.round(v*100)+'%';
+      const tag=(i===0)?' (antes)':(i===S.length-1?' (hoje)':'');
+      return `<td${hl}>${c[1]==='short'?v+tag:v}</td>`;
+    }).join('')+'</tr>';
+  }).join('')+'</tbody>';
+  document.getElementById('progTable').innerHTML=th+tb;
+
+  if(typeof Chart==='undefined')return;
+  try{
+    // Distribuição por status: Antes × Hoje
+    const labels=STATUS_ORDER.filter(s=>(A.dist[s]||B.dist[s]));
+    new Chart(document.getElementById('chCompare'),{type:'bar',
+      data:{labels:labels.map(shortStatus),datasets:[
+        {label:'Antes ('+A.short+')',data:labels.map(s=>A.dist[s]||0),backgroundColor:'#7c89a8',borderRadius:4},
+        {label:'Hoje ('+B.short+')',data:labels.map(s=>B.dist[s]||0),backgroundColor:'#4f8cff',borderRadius:4}]},
+      options:{indexAxis:'y',plugins:{legend:{labels:{color:'#93a4c9',font:{size:11}}}},
+        scales:{x:{ticks:{color:'#93a4c9'},grid:{color:'#2a3a5c'}},y:{ticks:{color:'#93a4c9',font:{size:11}},grid:{display:false}}}}});
+    // Evolução ao longo do tempo
+    const mk=(lbl,key,col)=>({label:lbl,data:S.map(s=>s[key]),borderColor:col,backgroundColor:col,tension:.3,fill:false,pointRadius:4});
+    new Chart(document.getElementById('chEvo'),{type:'line',
+      data:{labels:S.map(s=>s.short),datasets:[
+        mk('Validados','validated','#2fbf71'),mk('Encerrados','closed','#4f8cff'),
+        mk('Pendências abertas','open','#e08a3c'),mk('Bloqueantes','blocking','#e5534b')]},
+      options:{plugins:{legend:{labels:{color:'#93a4c9',font:{size:11}}}},
+        scales:{x:{ticks:{color:'#93a4c9'},grid:{color:'#2a3a5c'}},y:{ticks:{color:'#93a4c9'},grid:{color:'#2a3a5c'},beginAtZero:true}}}});
+  }catch(e){console.warn('Progress charts skipped:',e);}
+}
 
 render();
 </script>

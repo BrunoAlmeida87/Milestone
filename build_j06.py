@@ -207,6 +207,37 @@ def sync_history(current: dict, source_label: str, short_label: str):
     return baseline, snaps
 
 
+def build_progress(snapshots):
+    """Indicadores por snapshot (fotografia) para a aba de Progresso do dashboard."""
+    def summarize(stat):
+        from collections import Counter
+        c = Counter(stat.values())
+        total = len(stat)
+        validated = c.get("1 - Validated by ICN", 0)
+        notblk = c.get("2 - Not Blocking", 0)
+        closed = validated + notblk
+        return {
+            "total": total, "validated": validated, "notblk": notblk, "closed": closed,
+            "open": total - closed,
+            "blocking": c.get("3 - Blocking", 0),
+            "waiting": c.get("5 - Waiting Proof", 0),
+            "under": c.get("4 - Under Analysis", 0) + c.get("4 - Under Analysis To Not Blocking", 0),
+            "b05": c.get("6 - Waiting B05", 0),
+            "missing": c.get("7 - Missing Vacuum Test or Sign", 0),
+            "dist": dict(c),
+            "pct": round(closed / total, 4) if total else 0,
+        }
+
+    snaps = []
+    for s in snapshots:
+        d = summarize(s["statuses"])
+        d["short"] = s.get("short", "snapshot")
+        d["label"] = s.get("label", d["short"])
+        d["date"] = s.get("date")
+        snaps.append(d)
+    return {"snaps": snaps}
+
+
 def build_item_histories(snapshots):
     """Linha do tempo por item: [{t: rotulo, s: status}, ...] colapsando repeticoes."""
     hist = {}
@@ -448,7 +479,7 @@ def _write_history_sheet(wb, records):
 # --------------------------------------------------------------------------- #
 # Saida HTML
 # --------------------------------------------------------------------------- #
-def write_html(records, last_updated, source_label):
+def write_html(records, last_updated, source_label, progress):
     tpl = TEMPLATE_HTML.read_text(encoding="utf-8")
     payload = [{
         "item": d["item"], "ojx": d["ojx"], "ajx": d["ajx"], "desc": d["desc"],
@@ -460,6 +491,7 @@ def write_html(records, last_updated, source_label):
     } for d in records]
     html = (tpl
             .replace("__DATA_JSON__", json.dumps(payload, ensure_ascii=False))
+            .replace("__PROGRESS_JSON__", json.dumps(progress, ensure_ascii=False))
             .replace("__LAST_UPDATED__", last_updated)
             .replace("__ITEM_COUNT__", str(len(records)))
             .replace("__SOURCE_LABEL__", source_label))
@@ -482,8 +514,9 @@ def main():
     enrich = json.loads(ENRICH_JSON.read_text(encoding="utf-8"))
 
     records = build_records(gto, baseline, histories, enrich)
+    progress = build_progress(snapshots)
     write_excel(records, last_updated, source_label)
-    write_html(records, last_updated, source_label)
+    write_html(records, last_updated, source_label, progress)
     consolidate_source(src)
 
     changed = sum(1 for d in records

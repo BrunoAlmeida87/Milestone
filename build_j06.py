@@ -54,6 +54,10 @@ TEMPLATE_HTML = ROOT / "templates" / "dashboard_template.html"
 OUT_XLSX = ROOT / "J06_Items_Analysis.xlsx"
 OUT_HTML = ROOT / "J06_Dashboard.html"
 
+# So acompanhamos os itens do milestone J06 (ActualJx = J06). A fonte pode vir
+# filtrada (so J06) ou completa (todos os milestones) — filtramos por seguranca.
+TARGET_JX = "J06"
+
 # Status considerados "encerrados" (nao entram nas pendencias abertas).
 CLOSED_SET = {"1 - Validated by ICN", "2 - Not Blocking"}
 
@@ -120,6 +124,9 @@ def read_gto(path: Path):
     for r in range(3, ws.max_row + 1):
         it = ws.cell(r, c_item).value
         if it is None:
+            continue
+        # A fonte pode vir com todos os milestones; ficamos so com ActualJx = J06.
+        if (ws.cell(r, c_ajx).value or "").strip() != TARGET_JX:
             continue
         items[str(it)] = {
             "item": it,

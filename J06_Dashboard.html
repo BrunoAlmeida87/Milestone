@@ -298,6 +298,7 @@ tr:hover td{background:rgba(79,140,255,.06)}
       <div class="card"><h3 data-i18n="compareTitle">Distribuição por status — Antes × Hoje</h3><div class="chart-box"><canvas id="chCompare"></canvas></div></div>
       <div class="card"><h3 data-i18n="evoTitle">Evolução ao longo do tempo</h3><div class="chart-box"><canvas id="chEvo"></canvas></div></div>
     </div>
+    <div class="card" style="margin-bottom:20px"><h3 data-i18n="evoStatusTitle">Evolução por status — todas as categorias</h3><div class="chart-box" style="height:360px"><canvas id="chEvoStatus"></canvas></div></div>
     <div class="card"><h3 data-i18n="summaryTitle">Resumo da evolução</h3><div style="overflow-x:auto"><table id="progTable"></table></div></div>
   </div>
 
@@ -340,7 +341,7 @@ const I18N={
   movCardsTitle:'Movimentações por status de origem (resumo em cartões)',
   chClosed:'itens fechados no período', chClosedSub:'aberto → encerrado', chLeftWaiting:'saíram de “Waiting Proof”', chLeftWaitingSub:'aguardavam evidência', chBlocks:'bloqueios resolvidos', chBlocksSub:'deixaram de bloquear', chReg:'regressões', chRegSub:'reabertos ou novos bloqueios',
   leftN:'{n} saíram →', left2:'saíram', noChangeMov:'Nenhuma mudança de status no período.',
-  compareTitle:'Distribuição por status — Antes × Hoje', evoTitle:'Evolução ao longo do tempo', evoValidated:'Validados', evoClosed:'Encerrados', evoOpen:'Pendências abertas', evoBlocking:'Bloqueantes', antesLbl:'Antes', hojeLbl:'Hoje',
+  compareTitle:'Distribuição por status — Antes × Hoje', evoTitle:'Evolução ao longo do tempo', evoStatusTitle:'Evolução por status — todas as categorias', evoValidated:'Validados', evoClosed:'Encerrados', evoOpen:'Pendências abertas', evoBlocking:'Bloqueantes', antesLbl:'Antes', hojeLbl:'Hoje',
   summaryTitle:'Resumo da evolução', tSnap:'Fotografia', tClosed:'Encerrados', tOpen:'Abertas', tBlocking:'Bloqueantes', tWaiting:'Waiting Proof', tValidated:'Validados', tPct:'% Concluído', tBeforeTag:' (antes)', tTodayTag:' (hoje)'
  },
  en:{
@@ -364,7 +365,7 @@ const I18N={
   movCardsTitle:'Movements by source status (card summary)',
   chClosed:'items closed in the period', chClosedSub:'open → closed', chLeftWaiting:'left “Waiting Proof”', chLeftWaitingSub:'were awaiting evidence', chBlocks:'blocks resolved', chBlocksSub:'no longer blocking', chReg:'regressions', chRegSub:'reopened or newly blocking',
   leftN:'{n} left →', left2:'left', noChangeMov:'No status change in the period.',
-  compareTitle:'Status distribution — Before × Today', evoTitle:'Evolution over time', evoValidated:'Validated', evoClosed:'Closed', evoOpen:'Open pendencies', evoBlocking:'Blocking', antesLbl:'Before', hojeLbl:'Today',
+  compareTitle:'Status distribution — Before × Today', evoTitle:'Evolution over time', evoStatusTitle:'Evolution by status — all categories', evoValidated:'Validated', evoClosed:'Closed', evoOpen:'Open pendencies', evoBlocking:'Blocking', antesLbl:'Before', hojeLbl:'Today',
   summaryTitle:'Evolution summary', tSnap:'Snapshot', tClosed:'Closed', tOpen:'Open', tBlocking:'Blocking', tWaiting:'Waiting Proof', tValidated:'Validated', tPct:'% Complete', tBeforeTag:' (before)', tTodayTag:' (today)'
  }
 };
@@ -704,7 +705,7 @@ function renderMovements(){
       }).join('')+`</div></div>`;
   }).join('');
 }
-let chCompareInst=null, chEvoInst=null;
+let chCompareInst=null, chEvoInst=null, chEvoStatusInst=null;
 function renderProgress(){
   if(progressRendered)return; progressRendered=true;
   const S=PROGRESS.snaps, A=S[0], B=S[S.length-1];
@@ -763,6 +764,16 @@ function renderProgress(){
         mk(tr('evoValidated'),'validated','#2fbf71'),mk(tr('evoClosed'),'closed','#4f8cff'),
         mk(tr('evoOpen'),'open','#e08a3c'),mk(tr('evoBlocking'),'blocking','#e5534b')]},
       options:{plugins:{legend:{labels:{color:'#93a4c9',font:{size:11}}}},
+        scales:{x:{ticks:{color:'#93a4c9'},grid:{color:'#2a3a5c'}},y:{ticks:{color:'#93a4c9'},grid:{color:'#2a3a5c'},beginAtZero:true}}}});
+    // Evolução por status — uma linha por categoria (sem unir)
+    if(chEvoStatusInst)chEvoStatusInst.destroy();
+    const statuses=STATUS_ORDER.filter(s=>S.some(sn=>sn.dist[s]));
+    chEvoStatusInst=new Chart(document.getElementById('chEvoStatus'),{type:'line',
+      data:{labels:S.map(s=>s.short),datasets:statuses.map(st=>({
+        label:shortStatus(st),data:S.map(sn=>sn.dist[st]||0),
+        borderColor:STATUS_COLOR[st]||'#7c89a8',backgroundColor:STATUS_COLOR[st]||'#7c89a8',
+        tension:.3,fill:false,pointRadius:3,borderWidth:2}))},
+      options:{plugins:{legend:{labels:{color:'#93a4c9',font:{size:11},boxWidth:12}}},
         scales:{x:{ticks:{color:'#93a4c9'},grid:{color:'#2a3a5c'}},y:{ticks:{color:'#93a4c9'},grid:{color:'#2a3a5c'},beginAtZero:true}}}});
   }catch(e){console.warn('Progress charts skipped:',e);}
 }
